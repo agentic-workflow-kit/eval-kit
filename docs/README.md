@@ -5,7 +5,7 @@ status: draft
 
 # eval-kit — documentation
 
-Documentation is organized by **altitude**: product (intent) above design (mechanics).
+Documentation is organized by **altitude**: product intent above design mechanics.
 
 | Layer                  | Owns                                       | Status |
 | ---------------------- | ------------------------------------------ | ------ |
@@ -15,3 +15,9 @@ Documentation is organized by **altitude**: product (intent) above design (mecha
 Suite-level framing (how this repo relates to the other products in the lifecycle) lives at the
 [organization profile](https://github.com/agentic-workflow-kit), not here. This repo stays scoped
 to its own concern.
+
+## Current phase
+
+Phase 1 records the agreed product/design handoff before implementation. It does not add runtime
+code, schemas, CLI behavior, skills, downstream integrations, repo-template templates, or publishing
+claims.
