@@ -36,7 +36,19 @@ if [[ "${repo_root}" == */worktrees/*/* ]]; then
 fi
 
 if [ -n "${CODE_WORKTREE_ROOT:-}" ]; then
-  family_root="${CODE_WORKTREE_ROOT%/}"
+  requested_root="${CODE_WORKTREE_ROOT%/}"
+  if [ -z "${requested_root}" ]; then
+    requested_root="/"
+  fi
+  case "${requested_root}" in
+  /*) ;;
+  *)
+    echo "error: CODE_WORKTREE_ROOT must be an absolute external path." >&2
+    exit 1
+    ;;
+  esac
+  mkdir -p "${requested_root}"
+  family_root="$(cd "${requested_root}" && pwd -P)"
 elif [[ "${repo_root}" == */worktrees/"${repo_name}"/* ]]; then
   family_root="${repo_root%%/worktrees/${repo_name}/*}"
 else
