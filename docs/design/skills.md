@@ -1,29 +1,25 @@
 ---
 title: eval-kit skills
-status: draft
+status: implemented
 ---
 
 # Eval Kit Skills
 
 ## Decision
 
-`eval-kit` should ship agent-facing skills in a later phase. Skills are part of adoption mechanics:
-they tell an agent how to use the package without moving consumer semantics into the shared repo.
+`eval-kit` ships agent-facing skills as adoption mechanics: they tell an agent how to use the
+package without moving consumer semantics into the shared repo.
 
-## Intended skill surface
+## Skill surface
 
-Initial skills should cover:
+- `skills/bootstrap-eval-suite/SKILL.md`
+- `skills/author-eval-case/SKILL.md`
+- `skills/review-eval-suite/SKILL.md`
+- `skills/run-eval-suite/SKILL.md`
 
-- using eval-kit commands in a consumer repo
-- bootstrapping or refreshing consumer harness files
-- authoring consumer-owned cases and fixtures
-- preserving the mechanics-versus-semantics boundary
-- migrating `technical-design` from local mechanics to the tagged package
-
-## Phase boundary
-
-Phase 1 only documents the skill intent. It does not add skill files, runtime code, or consumer
-integration.
+The skills guide agents through CLI use, evidence collection, case authoring, review, and running
+suites. They avoid technical-design semantics by default and keep model-assisted judging advisory
+unless the consumer has calibrated it.
 
 ## Skill quality bar
 

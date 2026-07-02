@@ -8,7 +8,7 @@ status: draft
 ## Current baseline
 
 The live repository is a private root package named `@agentic-workflow-kit/eval-kit` at version
-`0.0.0`. Phase 2 added reusable mechanics at the repo root: CLI entrypoint, SDK helpers, generic
+`0.1.0`. Phase 2 added reusable mechanics at the repo root: CLI entrypoint, SDK helpers, generic
 schemas, adapter loading, case discovery, deterministic result bundles, optional Promptfoo helpers,
 and focused package tests.
 

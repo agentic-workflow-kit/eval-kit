@@ -55,6 +55,10 @@ Add bootstrap CLI behavior and eval-kit skills. Verify that a consumer can prepa
 files while keeping semantics local. Cut the intended private `v0.1.0` Git tag only after this phase
 is complete.
 
+Status: implemented in the root package. The CLI provides a generic deterministic bootstrap, case
+scaffolding, suite doctor, and case listing. Skills now cover bootstrapping, authoring, reviewing,
+and running eval suites. Phase 3 still does not update downstream consumers.
+
 ## Phase 4: technical-design consumption
 
 Update `technical-design` to pin the `v0.1.0` Git tag, call shared mechanics from

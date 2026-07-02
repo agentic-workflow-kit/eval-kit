@@ -1,6 +1,6 @@
 {
   "name": "@agentic-workflow-kit/eval-kit",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Portable eval runner primitives for local eval suites.",
   "private": true,
   "type": "module",

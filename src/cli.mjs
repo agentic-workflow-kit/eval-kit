@@ -1,5 +1,12 @@
 import path from "node:path";
 import { parseArgs, requireArg, defaultRunId } from "./args.mjs";
+import {
+  DEFAULT_CONFIG_PATH,
+  initSuite,
+  listCases,
+  runDoctor,
+  scaffoldCase,
+} from "./bootstrap.mjs";
 import { loadConfig } from "./config.mjs";
 import {
   runCase,
@@ -23,6 +30,23 @@ const printHelp = () => {
 Usage: eval-kit <command> [options]
 
 Commands:
+  init             Create a deterministic generic eval skeleton
+    --suite generic
+    [--dry-run]
+    [--force]
+
+  scaffold-case    Create a generic deterministic case skeleton
+    --case <id>
+    [--config <path>]
+    [--dry-run]
+    [--force]
+
+  doctor           Validate eval-kit config, adapter, cases, and results root
+    [--config <path>]
+
+  list-cases       List discovered case IDs
+    [--config <path>]
+
   run-case          Grade a single case candidate deterministically
     --case <id>
     --candidate <path>
@@ -81,13 +105,55 @@ export const main = async () => {
   const rawArgs = process.argv.slice(3);
   let parsed;
   try {
-    parsed = parseArgs(rawArgs);
+    parsed = parseArgs(rawArgs, { booleanFlags: ["dry-run", "force"] });
   } catch (error) {
     console.error(`Error parsing arguments: ${error.message}`);
     process.exit(1);
   }
 
-  const configPath = parsed.config ?? "eval-kit.config.json";
+  const configPath = parsed.config ?? DEFAULT_CONFIG_PATH;
+
+  try {
+    switch (subcommand) {
+      case "init": {
+        const suite = parsed.suite ?? "generic";
+        initSuite({
+          suite,
+          dryRun: parsed["dry-run"] === true,
+          force: parsed.force === true,
+        });
+        return;
+      }
+
+      case "scaffold-case": {
+        const caseId = requireArg(parsed, "case");
+        await scaffoldCase({
+          configPath,
+          caseId,
+          dryRun: parsed["dry-run"] === true,
+          force: parsed.force === true,
+        });
+        return;
+      }
+
+      case "doctor": {
+        await runDoctor({ configPath });
+        return;
+      }
+
+      case "list-cases": {
+        listCases({ configPath });
+        return;
+      }
+
+      default:
+        break;
+    }
+  } catch (error) {
+    console.error(`Execution failed: ${error.message}`);
+    process.exit(1);
+  }
+
   let config;
   try {
     config = loadConfig(configPath);
