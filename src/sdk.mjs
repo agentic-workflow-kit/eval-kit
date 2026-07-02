@@ -72,35 +72,16 @@ const loadAdapterModule = async (config, label) => {
   return config.loadModule(modulePath, label);
 };
 
-// Resolve case manifest in a generic way
-export const resolveCaseManifest = (config, caseId) => {
-  const safeCaseId = assertSafeId(caseId, "case id");
+export const resolveCaseManifestPath = (config, manifestPath) => {
   const resolver = config.pathResolver;
-
-  const manifestPath = configuredCaseManifestPaths(config).find(
-    (manifestRelPath) => {
-      try {
-        const fullPath = resolver.resolveSuitePath(
-          manifestRelPath,
-          "case manifest",
-        );
-        if (!fs.existsSync(fullPath)) return false;
-        const manifest = JSON.parse(fs.readFileSync(fullPath, "utf8"));
-        return manifest.case_id === safeCaseId;
-      } catch {
-        return false;
-      }
-    },
-  );
-
-  if (!manifestPath) {
-    throw new Error(`case manifest not found for case: ${safeCaseId}`);
-  }
-
   const absoluteManifestPath = resolver.resolveSuitePath(
     manifestPath,
     "case manifest",
   );
+  if (!fs.existsSync(absoluteManifestPath)) {
+    throw new Error(`configured case manifest not found: ${manifestPath}`);
+  }
+
   const caseDir = path.dirname(absoluteManifestPath);
   const manifest = JSON.parse(fs.readFileSync(absoluteManifestPath, "utf8"));
 
@@ -137,6 +118,34 @@ export const resolveCaseManifest = (config, caseId) => {
     manifest,
     artifacts,
   };
+};
+
+// Resolve case manifest in a generic way
+export const resolveCaseManifest = (config, caseId) => {
+  const safeCaseId = assertSafeId(caseId, "case id");
+  const resolver = config.pathResolver;
+
+  const manifestPath = configuredCaseManifestPaths(config).find(
+    (manifestRelPath) => {
+      try {
+        const fullPath = resolver.resolveSuitePath(
+          manifestRelPath,
+          "case manifest",
+        );
+        if (!fs.existsSync(fullPath)) return false;
+        const manifest = JSON.parse(fs.readFileSync(fullPath, "utf8"));
+        return manifest.case_id === safeCaseId;
+      } catch {
+        return false;
+      }
+    },
+  );
+
+  if (!manifestPath) {
+    throw new Error(`case manifest not found for case: ${safeCaseId}`);
+  }
+
+  return resolveCaseManifestPath(config, manifestPath);
 };
 
 export const discoverCaseIds = (config) => {

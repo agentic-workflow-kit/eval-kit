@@ -40,6 +40,7 @@ export {
 export {
   configuredCaseManifestPaths,
   resolveCaseManifest,
+  resolveCaseManifestPath,
   discoverCaseIds,
   runCase,
   generateCandidate,

@@ -6,7 +6,7 @@ import { assertSafeId, toPosixPath } from "./paths.mjs";
 import {
   configuredCaseManifestPaths,
   discoverCaseIds,
-  resolveCaseManifest,
+  resolveCaseManifestPath,
   validateFixtures,
 } from "./sdk.mjs";
 
@@ -297,16 +297,16 @@ export const runDoctor = async ({ configPath = DEFAULT_CONFIG_PATH }) => {
   }
 
   const manifestPaths = configuredCaseManifestPaths(config);
+  const seenCaseIds = new Map();
   for (const manifestPath of manifestPaths) {
-    const manifest = resolveCaseManifest(
-      config,
-      JSON.parse(
-        fs.readFileSync(
-          config.pathResolver.resolveSuitePath(manifestPath, "case manifest"),
-          "utf8",
-        ),
-      ).case_id,
-    );
+    const manifest = resolveCaseManifestPath(config, manifestPath);
+    const firstPath = seenCaseIds.get(manifest.caseId);
+    if (firstPath) {
+      throw new Error(
+        `duplicate case id ${manifest.caseId}: ${firstPath} and ${manifestPath}`,
+      );
+    }
+    seenCaseIds.set(manifest.caseId, manifestPath);
     pass(
       `case manifest valid: ${config.pathResolver.relativeToSuite(manifest.manifestPath)}`,
     );

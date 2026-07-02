@@ -122,6 +122,82 @@ describe("bootstrap CLI", () => {
     expect(duplicate.stderr).toContain("refusing to overwrite");
   });
 
+  it("validates artifact paths from each discovered manifest path", () => {
+    const root = makeConsumer();
+    expect(runCli(root, ["init", "--suite", "generic"]).status).toBe(0);
+    expect(runCli(root, ["scaffold-case", "--case", "case-alpha"]).status).toBe(
+      0,
+    );
+    expect(runCli(root, ["scaffold-case", "--case", "case-beta"]).status).toBe(
+      0,
+    );
+
+    const betaManifestPath = path.join(
+      root,
+      "evals",
+      "cases",
+      "case-beta",
+      "case-manifest.json",
+    );
+    const betaManifest = readJson(betaManifestPath);
+    fs.writeFileSync(
+      betaManifestPath,
+      `${JSON.stringify(
+        {
+          ...betaManifest,
+          case_id: "case-alpha",
+          artifacts: [
+            {
+              role: "grader_input",
+              path: "missing-expected-items.json",
+            },
+          ],
+        },
+        null,
+        2,
+      )}\n`,
+    );
+
+    const doctor = runCli(root, ["doctor"]);
+    expect(doctor.status).toBe(1);
+    expect(doctor.stderr).toContain("missing-expected-items.json");
+  });
+
+  it("fails doctor on duplicate case ids", () => {
+    const root = makeConsumer();
+    expect(runCli(root, ["init", "--suite", "generic"]).status).toBe(0);
+    expect(runCli(root, ["scaffold-case", "--case", "case-alpha"]).status).toBe(
+      0,
+    );
+    expect(runCli(root, ["scaffold-case", "--case", "case-beta"]).status).toBe(
+      0,
+    );
+
+    const betaManifestPath = path.join(
+      root,
+      "evals",
+      "cases",
+      "case-beta",
+      "case-manifest.json",
+    );
+    const betaManifest = readJson(betaManifestPath);
+    fs.writeFileSync(
+      betaManifestPath,
+      `${JSON.stringify(
+        {
+          ...betaManifest,
+          case_id: "case-alpha",
+        },
+        null,
+        2,
+      )}\n`,
+    );
+
+    const doctor = runCli(root, ["doctor"]);
+    expect(doctor.status).toBe(1);
+    expect(doctor.stderr).toContain("duplicate case id");
+  });
+
   it("rejects path-shaped case ids", () => {
     const root = makeConsumer();
     expect(runCli(root, ["init", "--suite", "generic"]).status).toBe(0);
