@@ -7,9 +7,10 @@ status: draft
 
 ## Current baseline
 
-The live repository is a private package named `@agentic-workflow-kit/eval-kit` at version `0.0.0`.
-It has repository setup scripts and a `pnpm check` formatting gate, but no runtime implementation
-yet.
+The live repository is a private root package named `@agentic-workflow-kit/eval-kit` at version
+`0.0.0`. Phase 2 added reusable mechanics at the repo root: CLI entrypoint, SDK helpers, generic
+schemas, adapter loading, case discovery, deterministic result bundles, optional Promptfoo helpers,
+and focused package tests.
 
 ## Package shape
 
@@ -20,7 +21,7 @@ The package will expose reusable mechanics for evaluation workflows:
 - running generic evaluation steps
 - emitting stable machine-readable and human-readable reports
 - providing command wrappers that consumers can call from local scripts
-- bootstrapping a consumer repo's local harness files
+- future bootstrapping of a consumer repo's local harness files
 
 The package must avoid importing consumer domain semantics. Consumer repos can provide callbacks,
 configuration, local fixtures, or adapters for semantics that the package should not own.

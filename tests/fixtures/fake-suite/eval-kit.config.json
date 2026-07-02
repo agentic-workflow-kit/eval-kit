@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/eval-kit.config.schema.json",
+  "schema_version": "eval-kit.config.v1",
+  "suite_id": "fake-suite",
+  "suite_root": ".",
+  "results_root": "results",
+  "adapter": "adapter.mjs",
+  "cases": {
+    "root": "cases",
+    "include": ["case-*"]
+  },
+  "methods": {
+    "deterministic": {
+      "enabled": true,
+      "grader": "keyword",
+      "reporter": "markdown"
+    },
+    "judge_pairwise": {
+      "enabled": false
+    },
+    "report": {
+      "enabled": true
+    }
+  }
+}

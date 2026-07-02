@@ -1,0 +1,18 @@
+{
+  "schema_version": "fake-suite.case.v1",
+  "case_id": "case-alpha",
+  "case_type": "keyword-smoke",
+  "artifacts": [
+    {
+      "role": "generation_visible",
+      "path": "input.md"
+    },
+    {
+      "role": "grader_input",
+      "path": "expected-items.json"
+    }
+  ],
+  "metadata": {
+    "purpose": "Generic fake consumer fixture for eval-kit package tests"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "ITEM-001",
+      "kind": "keyword",
+      "severity": "critical",
+      "required_text": "alpha marker"
+    }
+  ]
+}

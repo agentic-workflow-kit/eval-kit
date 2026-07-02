@@ -59,3 +59,12 @@ Status: accepted
 During extraction, any technical-design-specific content must either remain in `technical-design` or
 be generalized behind a documented consumer contract. The shared package should not silently absorb
 technical-design semantics.
+
+## D-008 Use a root package layout for the shared implementation
+
+Status: accepted
+
+Phase 2 moved the reusable package mechanics into the `eval-kit` repository root rather than a nested
+`packages/eval-kit` workspace. The repo is a single private package for now, so root layout keeps
+local development and Git tag consumption simpler. If future packages are needed, the workspace can
+be reintroduced deliberately.
