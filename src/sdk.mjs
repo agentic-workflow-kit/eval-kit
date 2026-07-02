@@ -205,6 +205,7 @@ const getGitCommit = (config) => {
     return execFileSync("git", ["rev-parse", "HEAD"], {
       cwd: config.pathResolver.repoRoot,
       encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
     }).trim();
   } catch {
     return "unknown";
@@ -705,7 +706,7 @@ export const judgeCoverage = async ({
 
   const promptfooConfig = {
     description: `${config.raw.suite_id} pointwise judge for ${caseId}`,
-    prompts: [promptTemplatePath],
+    prompts: [promptText],
     providers: [
       {
         id: codexProviderId({ provider, model }),
@@ -970,14 +971,28 @@ export const judgePairwise = async ({
     );
   }
 
+  const candidateByOriginalKey = {
+    candidate_a: {
+      content: fs.readFileSync(resolvedCandidateAPath, "utf8"),
+      path: resolvedCandidateAPath,
+    },
+    candidate_b: {
+      content: fs.readFileSync(resolvedCandidateBPath, "utf8"),
+      path: resolvedCandidateBPath,
+    },
+  };
+  const [displayedCandidateA, displayedCandidateB] = candidateOrder.map(
+    (candidateKey) => candidateByOriginalKey[candidateKey],
+  );
+
   const vars = await hooks.resolvePairwiseVars({
     caseId,
     caseDir,
     artifacts,
-    candidateAContent: fs.readFileSync(resolvedCandidateAPath, "utf8"),
-    candidateBContent: fs.readFileSync(resolvedCandidateBPath, "utf8"),
-    candidateAPath: resolvedCandidateAPath,
-    candidateBPath: resolvedCandidateBPath,
+    candidateAContent: displayedCandidateA.content,
+    candidateBContent: displayedCandidateB.content,
+    candidateAPath: displayedCandidateA.path,
+    candidateBPath: displayedCandidateB.path,
     promptVersion,
     rubricVersion,
     model,
@@ -1004,7 +1019,7 @@ export const judgePairwise = async ({
 
   const promptfooConfig = {
     description: `${config.raw.suite_id} pairwise judge for ${caseId}`,
-    prompts: [promptTemplatePath],
+    prompts: [promptText],
     providers: [
       {
         id: codexProviderId({ provider, model }),

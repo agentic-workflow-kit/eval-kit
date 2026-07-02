@@ -74,6 +74,33 @@ describe("eval-kit schema registry", () => {
     ).not.toThrow();
   });
 
+  it("allows deterministic findings to carry consumer metadata", () => {
+    const registry = createSchemaRegistry({
+      schemaRoots: [path.resolve(import.meta.dirname, "../schemas")],
+    });
+    expect(() =>
+      registry.validateWithSchema(
+        "grades.schema.json",
+        {
+          case_id: "case-a",
+          verdict: "green",
+          findings: [
+            {
+              id: "ITEM-001",
+              kind: "coverage",
+              severity: "critical",
+              verdict: "covered",
+              evidence: "found required item",
+              source_refs: ["input.md"],
+              remediation: "none",
+            },
+          ],
+        },
+        "grades",
+      ),
+    ).not.toThrow();
+  });
+
   it("accepts current model-run metadata fields", () => {
     const registry = createSchemaRegistry({
       schemaRoots: [path.resolve(import.meta.dirname, "../schemas")],

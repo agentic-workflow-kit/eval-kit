@@ -217,6 +217,11 @@ export const resolvePairwiseVars = async ({
 };
 ```
 
+`candidateAContent` and `candidateBContent` are the randomized display slots shown to the judge.
+`randomizedOrder.candidate_order` records which original candidate key appears in each display slot.
+If the judge returns `winner: "candidate_a"` after a swap, Eval Kit maps that winner back to the
+original candidate key in the stored result.
+
 Pairwise execution is controlled by the consumer config. If
 `methods.judge_pairwise.enabled` is explicitly `false`, the CLI fails closed before running
 Promptfoo.

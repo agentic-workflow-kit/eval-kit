@@ -18,7 +18,7 @@
       "items": {
         "type": "object",
         "required": ["id", "kind", "severity", "verdict", "evidence"],
-        "additionalProperties": false,
+        "additionalProperties": true,
         "properties": {
           "id": {
             "type": "string",
