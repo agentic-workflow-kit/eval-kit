@@ -43,6 +43,12 @@ Implement the package mechanics in `eval-kit`:
 
 Phase 2 should not update `technical-design` to consume the package yet.
 
+Status: landed in the root package layout. The shared package includes generic mechanics and a fake
+consumer fixture for config loading, adapter import, case manifest resolution, deterministic result
+bundle writing, and fixture validation. Technical-design-specific expected fact and boundary schemas,
+DDD-shaped prompts, and reference cases remain out of the shared package and belong to the Phase 4
+consumer migration.
+
 ## Phase 3: bootstrap and skills
 
 Add bootstrap CLI behavior and eval-kit skills. Verify that a consumer can prepare local harness

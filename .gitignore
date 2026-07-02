@@ -37,3 +37,6 @@ pnpm-debug.log*
 # Local agent/runtime artifacts
 .codex/
 .claude/
+
+# Test fixture run outputs
+tests/fixtures/**/results/

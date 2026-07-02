@@ -1,12 +1,23 @@
 # eval-kit
 
-> Shared evaluation infrastructure for agentic-workflow-kit repos, starting as an extraction target
-> for reusable eval mechanics from `technical-design`.
+> Shared evaluation infrastructure for agentic-workflow-kit repos.
 
 ## Status
 
-Phase 0 baseline. The repository is initialized to org standards and does not yet contain runtime
-eval-kit implementation.
+Phase 2 implementation. The repository now owns the private root package
+`@agentic-workflow-kit/eval-kit` with reusable eval mechanics extracted from the original
+technical-design package source. Consumer-specific prompts, expected schemas, rubrics, and cases stay
+with consumers until their migration phase.
+
+Current package surfaces:
+
+- config loading and safe path resolution
+- case manifest discovery and validation
+- adapter loading
+- deterministic case runs and result bundle writing
+- schema registry and bundled generic schemas
+- verdict aggregation and generic text coverage helpers
+- optional Promptfoo helpers and generic prompt templates
 
 ## Development
 
@@ -15,7 +26,7 @@ pnpm install --frozen-lockfile
 pnpm check
 ```
 
-`pnpm check` is the single required local and CI gate.
+`pnpm check` runs formatting plus the focused package tests.
 
 ## Documentation
 
