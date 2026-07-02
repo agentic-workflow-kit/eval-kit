@@ -68,3 +68,11 @@ Phase 2 moved the reusable package mechanics into the `eval-kit` repository root
 `packages/eval-kit` workspace. The repo is a single private package for now, so root layout keeps
 local development and Git tag consumption simpler. If future packages are needed, the workspace can
 be reintroduced deliberately.
+
+## D-009 Ship generic bootstrap before suite presets
+
+Status: accepted
+
+Phase 3 ships only a generic deterministic bootstrap skeleton. Suite-specific presets such as
+technical-design, define-product, design-to-plan, jig, and learning-loop remain deferred until each
+consumer has an explicit design for which semantics stay local and which mechanics are shared.

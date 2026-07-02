@@ -23,6 +23,13 @@ export { aggregateVerdict, criticalBlockerCount } from "./verdict.mjs";
 
 export { loadConfig } from "./config.mjs";
 export {
+  DEFAULT_CONFIG_PATH,
+  initSuite,
+  listCases,
+  runDoctor,
+  scaffoldCase,
+} from "./bootstrap.mjs";
+export {
   normalize,
   candidateSegments,
   includesAny,
@@ -33,6 +40,7 @@ export {
 export {
   configuredCaseManifestPaths,
   resolveCaseManifest,
+  resolveCaseManifestPath,
   discoverCaseIds,
   runCase,
   generateCandidate,
