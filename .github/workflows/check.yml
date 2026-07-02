@@ -1,0 +1,37 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11.9.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          # supported floor — CI verifies the >=22.13.0 claim (.nvmrc=26 is the local dev line).
+          # cache: pnpm uses setup-node's built-in pnpm store cache (action-setup runs first).
+          node-version: 22.13.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: check
+        run: pnpm check
