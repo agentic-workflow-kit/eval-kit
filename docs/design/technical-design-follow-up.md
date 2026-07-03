@@ -43,14 +43,14 @@ In `technical-design/evals/adapter.mjs`:
 
 4. Add tests that call these adapter exports and assert required keys exist.
 
-5. Run:
+5. Run the fast/offline gate and local on-demand deterministic smoke:
 
 ```bash
 pnpm check
 pnpm eval:case -- --case case-tiny-laundry-pickup-v1 --candidate evals/cases/case-tiny-laundry-pickup-v1/reference-design.md --run-id verify-shared-eval-kit
 ```
 
-Optional if local auth exists:
+Manual/advisory if local auth exists:
 
 ```bash
 pnpm eval:generate -- --case case-tiny-laundry-pickup-v1 --model <model> --provider openai --effort medium --run-id verify-generation-vars

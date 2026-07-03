@@ -10,6 +10,10 @@ These commands create run directories:
 - `judge-pairwise`
 - `report`
 
+Run-producing commands are local on-demand or manual/advisory evidence. They are not default CI
+gates. Keep `pnpm check` limited to fast, offline, structural validation unless a consumer
+documents a narrow deterministic subset that does not call external providers.
+
 Setup and inspection commands do not create result bundles. `init` and `scaffold-case` write suite
 or case files, while `doctor`, `list-cases`, and `validate-fixtures` validate or report current
 state without writing `<results_root>/<run-id>/manifest.json`.
@@ -42,7 +46,7 @@ Current schema:
   "git": {
     "commit": "abc123"
   },
-  "command": "eval-kit run-case ...",
+  "command": "pnpm exec eval-kit run-case ...",
   "tool_versions": {
     "node": "v26.0.0",
     "pnpm": "11.9.0"

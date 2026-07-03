@@ -21,7 +21,7 @@ evals/
 ## Deterministic Case
 
 ```bash
-eval-kit run-case \
+pnpm exec eval-kit run-case \
   --config evals/eval-kit.config.json \
   --case case-alpha \
   --candidate evals/cases/case-alpha/candidate.md \
@@ -85,7 +85,7 @@ export const renderReport = ({ caseId, grades, findings }) => {
 ## Fixture Validation
 
 ```bash
-eval-kit validate-fixtures --config evals/eval-kit.config.json
+pnpm exec eval-kit validate-fixtures --config evals/eval-kit.config.json
 ```
 
 The kit validates discovered case manifests first. If `adapter.validateFixtures` exists, the kit
@@ -129,9 +129,10 @@ await runCase({
 `generate`, `judge-coverage`, and `judge-pairwise` are optional Promptfoo-backed commands. They
 require a consumer adapter that returns the variables expected by the selected prompt template.
 Consumers can use the bundled generic prompts or set `prompt_templates` to suite-owned prompts.
+Treat these as manual/advisory runs, not default CI gates.
 
 ```bash
-eval-kit judge-coverage \
+pnpm exec eval-kit judge-coverage \
   --config evals/eval-kit.config.json \
   --case case-alpha \
   --candidate evals/cases/case-alpha/candidate.md \

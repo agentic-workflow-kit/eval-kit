@@ -58,6 +58,12 @@ Expected items should be:
 
 Rubrics are for semantic interpretation. They should not contain hidden hard requirements that are absent from source artifacts.
 
+## Case portfolios
+
+Semantic case portfolios are local on-demand evidence. Keep cases small enough to debug, then run
+the consumer repo's deterministic portfolio before significant changes. Do not make long
+run-producing portfolios, full-case replays, or model-assisted judging part of default CI.
+
 ## Bad signs
 
 Avoid cases where:

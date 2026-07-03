@@ -23,10 +23,10 @@ Must guide:
 
 - read repo instructions;
 - add dependency;
-- run `eval-kit init --suite generic --dry-run`;
+- run `pnpm exec eval-kit init --suite generic --dry-run`;
 - inspect planned files;
-- run `eval-kit init --suite generic`;
-- run `eval-kit doctor`;
+- run `pnpm exec eval-kit init --suite generic`;
+- run `pnpm exec eval-kit doctor`;
 - report remaining consumer decisions.
 
 Must not:
@@ -56,6 +56,7 @@ Must detect:
 - hidden requirements in reference outputs;
 - vague rubrics;
 - model judges used as hard gates without calibration;
+- run-producing semantic portfolios treated as default CI gates;
 - cases too large to debug;
 - consumer semantics leaking into eval-kit.
 

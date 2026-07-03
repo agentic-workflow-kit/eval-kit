@@ -3,15 +3,18 @@
 Run:
 
 ```bash
-eval-kit <command> [options]
+pnpm exec eval-kit <command> [options]
 ```
+
+Package scripts may use plain `eval-kit` because npm/pnpm add local binaries to script `PATH`.
+Interactive consumer shell examples use `pnpm exec eval-kit`.
 
 ## `init`
 
 Create a deterministic generic eval skeleton.
 
 ```bash
-eval-kit init --suite generic [--dry-run] [--force]
+pnpm exec eval-kit init --suite generic [--dry-run] [--force]
 ```
 
 Options:
@@ -27,7 +30,7 @@ Options:
 Create a generic deterministic case skeleton.
 
 ```bash
-eval-kit scaffold-case --case <id> [--config <path>] [--dry-run] [--force]
+pnpm exec eval-kit scaffold-case --case <id> [--config <path>] [--dry-run] [--force]
 ```
 
 Options:
@@ -44,7 +47,7 @@ Options:
 Validate suite setup.
 
 ```bash
-eval-kit doctor [--config <path>]
+pnpm exec eval-kit doctor [--config <path>]
 ```
 
 ## `list-cases`
@@ -52,7 +55,7 @@ eval-kit doctor [--config <path>]
 List discovered case IDs.
 
 ```bash
-eval-kit list-cases [--config <path>]
+pnpm exec eval-kit list-cases [--config <path>]
 ```
 
 ## `run-case`
@@ -60,7 +63,7 @@ eval-kit list-cases [--config <path>]
 Run a deterministic case.
 
 ```bash
-eval-kit run-case \
+pnpm exec eval-kit run-case \
   --case <id> \
   --candidate <path> \
   [--run-id <id>] \
@@ -74,7 +77,7 @@ Exits non-zero when the deterministic verdict is `red`.
 Validate case manifests and call the consumer `validateFixtures` hook when present.
 
 ```bash
-eval-kit validate-fixtures [--config <path>]
+pnpm exec eval-kit validate-fixtures [--config <path>]
 ```
 
 ## `generate`
@@ -82,7 +85,7 @@ eval-kit validate-fixtures [--config <path>]
 Run Promptfoo-backed candidate generation.
 
 ```bash
-eval-kit generate \
+pnpm exec eval-kit generate \
   --case <id> \
   --model <name> \
   --provider <openai|openai:codex-app-server> \
@@ -91,14 +94,14 @@ eval-kit generate \
   [--config <path>]
 ```
 
-Requires Promptfoo and local Codex auth.
+Requires Promptfoo and local Codex auth. This is manual/advisory evidence, not a default CI gate.
 
 ## `judge-coverage`
 
 Run Promptfoo-backed pointwise coverage judging.
 
 ```bash
-eval-kit judge-coverage \
+pnpm exec eval-kit judge-coverage \
   --case <id> \
   --candidate <path> \
   --model <name> \
@@ -118,7 +121,7 @@ calling the consumer adapter. The adapter receives displayed Candidate A/B conte
 own second randomization pass.
 
 ```bash
-eval-kit judge-pairwise \
+pnpm exec eval-kit judge-pairwise \
   --case <id> \
   --candidate-a <path> \
   --candidate-b <path> \
@@ -137,7 +140,7 @@ Fails closed when `methods.judge_pairwise.enabled` is explicitly `false`.
 Compile existing run bundles into a unified report through the consumer hook.
 
 ```bash
-eval-kit report \
+pnpm exec eval-kit report \
   --run-id <id> \
   [--generate <id>] \
   [--deterministic <id>] \

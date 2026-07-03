@@ -20,6 +20,22 @@ The package is usable for deterministic local eval suites. Model-assisted comman
 but consumers must configure Promptfoo and calibrate judge behavior before treating model output as
 more than advisory evidence.
 
+## Evaluation policy
+
+Keep evals in three lanes:
+
+- **CI / `pnpm check`:** fast, offline, structural checks only. Suitable checks include
+  format/lint, static docs or schema validation, adapter import/syntax validation, fixture manifest
+  validation, local unit tests for graders/helpers, and seeded fixture checks that never call
+  external providers.
+- **Local on-demand:** deterministic suite runs, including semantic case portfolios, run before
+  significant changes in the consumer repo. These commands may create result bundles and should use
+  the consumer's documented local scripts.
+- **Manual/advisory:** Promptfoo/Codex model-assisted generation, pointwise judging, pairwise
+  judging, LLM judge coverage, long product-to-design or product-to-plan session evals, and
+  expensive replay suites. These require explicit local setup, auth where relevant, and human
+  calibration. They are not default CI gates.
+
 ## What it is
 
 `eval-kit` is a small runner and bootstrap package for repository-local evaluation suites.
@@ -67,23 +83,23 @@ Install from a Git tag in a consumer repo:
 Bootstrap a generic deterministic suite:
 
 ```bash
-eval-kit init --suite generic --dry-run
-eval-kit init --suite generic
-eval-kit doctor
+pnpm exec eval-kit init --suite generic --dry-run
+pnpm exec eval-kit init --suite generic
+pnpm exec eval-kit doctor
 ```
 
 Create a case:
 
 ```bash
-eval-kit scaffold-case --case case-example-v1
-eval-kit list-cases
-eval-kit doctor
+pnpm exec eval-kit scaffold-case --case case-example-v1
+pnpm exec eval-kit list-cases
+pnpm exec eval-kit doctor
 ```
 
 Run a deterministic case:
 
 ```bash
-eval-kit run-case \
+pnpm exec eval-kit run-case \
   --config evals/eval-kit.config.json \
   --case case-example-v1 \
   --candidate path/to/candidate.md \
@@ -160,7 +176,10 @@ pnpm install --frozen-lockfile
 pnpm check
 ```
 
-`pnpm check` is the required local and CI gate.
+`pnpm check` is the required local and CI gate for fast, offline, structural checks. Keep
+run-producing semantic portfolios, model-assisted generation/judging, LLM judge coverage, pairwise
+judging, and expensive full-case replays out of the default gate unless a consumer repo documents a
+narrow deterministic structural subset.
 
 ## Release model
 

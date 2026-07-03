@@ -32,9 +32,9 @@ pnpm install
 ## Bootstrap generic files
 
 ```bash
-eval-kit init --suite generic --dry-run
-eval-kit init --suite generic
-eval-kit doctor
+pnpm exec eval-kit init --suite generic --dry-run
+pnpm exec eval-kit init --suite generic
+pnpm exec eval-kit doctor
 ```
 
 ## Replace semantics
@@ -53,7 +53,7 @@ evals/prompts/*            # local prompts, if overriding bundled generic prompt
 
 ## Decide gate level
 
-Start manual:
+Start with package scripts for local use:
 
 ```json
 {
@@ -64,9 +64,19 @@ Start manual:
 }
 ```
 
-Once stable, add deterministic evals to `pnpm check`.
+Use three lanes:
 
-Do not add model-assisted evals to `pnpm check` unless the repo has explicit policy for credentials, cost, determinism, and judge calibration.
+- **CI / `pnpm check`:** fast, offline, structural checks only. This can include format/lint,
+  static docs/schema validation, adapter import or syntax validation, fixture manifest validation,
+  local unit tests for graders/helpers, and seeded fixture checks that do not require auth, network,
+  model calls, or manual calibration.
+- **Local on-demand:** deterministic `run-case` suites and semantic case portfolios. Run these
+  before significant changes, using the consumer repo's scripts or `pnpm exec eval-kit`.
+- **Manual/advisory:** Promptfoo/Codex generation, LLM judge coverage, pairwise judging, long
+  product-to-design/product-to-plan session evals, and expensive full-case replay suites.
+
+Do not add run-producing semantic portfolios or model-assisted evals to the default CI gate. If a
+consumer wants a deterministic subset in `pnpm check`, keep it short, offline, and structural.
 
 ## Review checklist
 
@@ -76,5 +86,5 @@ Do not add model-assisted evals to `pnpm check` unless the repo has explicit pol
 - [ ] Are hidden reference answers avoided?
 - [ ] Are deterministic blockers not averaged away?
 - [ ] Are model judges advisory unless calibrated?
-- [ ] Does pnpm check remain reasonable for contributors?
+- [ ] Does `pnpm check` remain fast, offline, and reasonable for contributors?
 ```
