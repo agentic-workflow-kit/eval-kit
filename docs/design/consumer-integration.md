@@ -9,7 +9,7 @@ Consumer repos should adopt eval-kit through a pinned Git tag and keep their eva
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.2"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
   }
 }
 ```
@@ -33,6 +33,13 @@ manifest validation, local grader/helper unit tests, and seeded fixture checks t
 external providers. Run deterministic semantic case portfolios locally before significant changes.
 Keep Promptfoo/Codex generation, LLM judge coverage, pairwise judging, long session evals, and
 expensive full-case replays manual/advisory rather than default CI gates.
+
+Pointwise model-judge consumers should use a separate manual config instead of toggling model
+methods in the deterministic default config. Keep `evals/eval-kit.config.json` deterministic and
+CI-safe. Put `judge_coverage.enabled=true` in `evals/eval-kit.model-judge.config.json`, keep
+`generate`, `judge_pairwise`, and `report` disabled there, and route `eval:judge:*` scripts through
+that manual config. Add pairwise later only when the consumer has calibrated pointwise evidence and a
+specific comparison need.
 
 ## Consumer-owned files
 
