@@ -25,6 +25,21 @@ const requireEnabledMethod = (config, methodKey, commandName) => {
   }
 };
 
+const runProducingMethodByCommand = {
+  "run-case": "deterministic",
+  generate: "generate",
+  "judge-coverage": "judge_coverage",
+  "judge-pairwise": "judge_pairwise",
+  report: "report",
+};
+
+const requireEnabledCommandMethod = (config, commandName) => {
+  const methodKey = runProducingMethodByCommand[commandName];
+  if (methodKey) {
+    requireEnabledMethod(config, methodKey, commandName);
+  }
+};
+
 const printHelp = () => {
   console.log(`
 Usage: eval-kit <command> [options]
@@ -163,6 +178,8 @@ export const main = async () => {
   }
 
   try {
+    requireEnabledCommandMethod(config, subcommand);
+
     switch (subcommand) {
       case "run-case": {
         const caseId = requireArg(parsed, "case");
@@ -221,7 +238,6 @@ export const main = async () => {
       }
 
       case "judge-pairwise": {
-        requireEnabledMethod(config, "judge_pairwise", "judge-pairwise");
         const caseId = requireArg(parsed, "case");
         const candidateA = requireArg(parsed, "candidate-a");
         const candidateB = requireArg(parsed, "candidate-b");

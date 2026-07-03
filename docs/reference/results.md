@@ -14,6 +14,9 @@ Run-producing commands are local on-demand or manual/advisory evidence. They are
 gates. Keep `pnpm check` limited to fast, offline, structural validation unless a consumer
 documents a narrow deterministic subset that does not call external providers.
 
+If a run-producing method is explicitly disabled in config, the CLI exits before writing a result
+bundle.
+
 Setup and inspection commands do not create result bundles. `init` and `scaffold-case` write suite
 or case files, while `doctor`, `list-cases`, and `validate-fixtures` validate or report current
 state without writing `<results_root>/<run-id>/manifest.json`.
@@ -36,7 +39,7 @@ Current schema:
   "run_type": "deterministic",
   "runner": {
     "id": "generic-eval-case",
-    "version": "0.1.1"
+    "version": "0.1.2"
   },
   "case_ids": ["case-example-v1"],
   "started_at": "2026-07-03T00:00:00.000Z",

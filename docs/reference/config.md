@@ -71,6 +71,9 @@ lanes:
 - `generate`, `judge_coverage`, and `judge_pairwise` are manual/advisory model-assisted methods.
   They require explicit local setup and must not require auth, network, Promptfoo provider calls,
   Codex/OpenAI calls, LLM judging, or manual calibration in `pnpm check`.
+- Run-producing commands fail closed when their method's `enabled` flag is explicitly `false`,
+  before Codex auth checks, Promptfoo execution, model provider calls, adapter hooks, or result
+  artifact writes.
 
 ## Path rules
 

@@ -9,6 +9,19 @@ pnpm exec eval-kit <command> [options]
 Package scripts may use plain `eval-kit` because npm/pnpm add local binaries to script `PATH`.
 Interactive consumer shell examples use `pnpm exec eval-kit`.
 
+Run-producing commands fail closed when their configured method is explicitly disabled:
+
+| Command          | Disabled by                            |
+| ---------------- | -------------------------------------- |
+| `run-case`       | `methods.deterministic.enabled=false`  |
+| `generate`       | `methods.generate.enabled=false`       |
+| `judge-coverage` | `methods.judge_coverage.enabled=false` |
+| `judge-pairwise` | `methods.judge_pairwise.enabled=false` |
+| `report`         | `methods.report.enabled=false`         |
+
+Disabled commands exit before Codex auth checks, Promptfoo execution, model provider calls, adapter
+hooks, or result artifact writes.
+
 ## `init`
 
 Create a deterministic generic eval skeleton.
@@ -72,6 +85,8 @@ pnpm exec eval-kit run-case \
 
 Exits non-zero when the deterministic verdict is `red`.
 
+Fails closed when `methods.deterministic.enabled` is explicitly `false`.
+
 ## `validate-fixtures`
 
 Validate case manifests and call the consumer `validateFixtures` hook when present.
@@ -95,6 +110,7 @@ pnpm exec eval-kit generate \
 ```
 
 Requires Promptfoo and local Codex auth. This is manual/advisory evidence, not a default CI gate.
+Fails closed before those checks when `methods.generate.enabled` is explicitly `false`.
 
 ## `judge-coverage`
 
@@ -110,6 +126,8 @@ pnpm exec eval-kit judge-coverage \
   [--run-id <id>] \
   [--config <path>]
 ```
+
+Fails closed when `methods.judge_coverage.enabled` is explicitly `false`.
 
 ## `judge-pairwise`
 
@@ -149,3 +167,5 @@ pnpm exec eval-kit report \
   [--outcome <id>] \
   [--config <path>]
 ```
+
+Fails closed when `methods.report.enabled` is explicitly `false`.
