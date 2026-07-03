@@ -1,27 +1,72 @@
----
-title: eval-kit skills
-status: implemented
----
+# Skills design
 
-# Eval Kit Skills
+Eval-kit skills guide agents through the CLI and repository boundary rules.
 
-## Decision
+## Skills
 
-`eval-kit` ships agent-facing skills as adoption mechanics: they tell an agent how to use the
-package without moving consumer semantics into the shared repo.
+```text
+skills/bootstrap-eval-suite
+skills/author-eval-case
+skills/review-eval-suite
+skills/run-eval-suite
+```
 
-## Skill surface
+## Skill rule
 
-- `skills/bootstrap-eval-suite/SKILL.md`
-- `skills/author-eval-case/SKILL.md`
-- `skills/review-eval-suite/SKILL.md`
-- `skills/run-eval-suite/SKILL.md`
+Skills do not replace executable commands. They should tell the agent what to inspect, what command to run, what evidence to report, and which boundary not to cross.
 
-The skills guide agents through CLI use, evidence collection, case authoring, review, and running
-suites. They avoid technical-design semantics by default and keep model-assisted judging advisory
-unless the consumer has calibrated it.
+## bootstrap-eval-suite
 
-## Skill quality bar
+Use when adding eval-kit to a consumer repo.
 
-Skills should be concise, operational, and tied to real package commands once those commands exist.
-They should not contain a copied handoff dump or ask agents to edit deferred repos.
+Must guide:
+
+- read repo instructions;
+- add dependency;
+- run `eval-kit init --suite generic --dry-run`;
+- inspect planned files;
+- run `eval-kit init --suite generic`;
+- run `eval-kit doctor`;
+- report remaining consumer decisions.
+
+Must not:
+
+- add technical-design semantics;
+- install Promptfoo by default;
+- add eval-kit to repo-template.
+
+## author-eval-case
+
+Use when creating a new eval case.
+
+Must guide:
+
+- define case purpose;
+- define what the case must not test;
+- choose deterministic versus model-assisted checks;
+- keep expected items source-visible;
+- avoid hidden answer keys.
+
+## review-eval-suite
+
+Use when reviewing eval quality.
+
+Must detect:
+
+- hidden requirements in reference outputs;
+- vague rubrics;
+- model judges used as hard gates without calibration;
+- cases too large to debug;
+- consumer semantics leaking into eval-kit.
+
+## run-eval-suite
+
+Use when executing evals.
+
+Must report:
+
+- commands run;
+- result bundle path;
+- deterministic verdict;
+- blocker findings;
+- model-assisted results separately from deterministic gates.

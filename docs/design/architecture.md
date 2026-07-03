@@ -1,52 +1,134 @@
----
-title: eval-kit architecture
-status: draft
----
+# Architecture
 
-# eval-kit Architecture
+## Boundary
 
-## Current baseline
+The architecture is defined by one rule:
 
-The live repository is a private root package named `@agentic-workflow-kit/eval-kit` at version
-`0.1.0`. Phase 2 added reusable mechanics at the repo root: CLI entrypoint, SDK helpers, generic
-schemas, adapter loading, case discovery, deterministic result bundles, optional Promptfoo helpers,
-and focused package tests.
+```text
+eval-kit owns mechanics.
+consumer repos own meaning.
+```
 
-## Package shape
+## Components
 
-The package will expose reusable mechanics for evaluation workflows:
+```text
+CLI
+  -> config loader
+  -> path resolver
+  -> schema registry
+  -> case discovery
+  -> adapter loader
+  -> command implementation
+  -> result bundle writer
 
-- loading case manifests and fixture directories
-- validating shared structural contracts
-- running generic evaluation steps
-- emitting stable machine-readable and human-readable reports
-- providing command wrappers that consumers can call from local scripts
-- future bootstrapping of a consumer repo's local harness files
+Consumer repo
+  -> evals/eval-kit.config.json
+  -> evals/adapter.mjs
+  -> evals/cases/*
+  -> evals/schemas/*
+  -> evals/prompts/*
+  -> evals/rubric.md
+```
 
-The package must avoid importing consumer domain semantics. Consumer repos can provide callbacks,
-configuration, local fixtures, or adapters for semantics that the package should not own.
+## Package responsibilities
 
-## Boundary rule
+Eval-kit owns:
 
-The architectural boundary is:
+- command routing;
+- config schema;
+- contained path resolution;
+- safe IDs;
+- manifest discovery;
+- artifact path resolution;
+- adapter import;
+- deterministic runner plumbing;
+- Promptfoo process wrapper;
+- result manifests;
+- report/artifact records;
+- generic bootstrap templates;
+- usage skills.
 
-- `eval-kit`: mechanics, file conventions, runner orchestration, validation plumbing, generic
-  schemas, bootstrap helpers, and usage skills.
-- consumer repo: domain cases, prompts, rubrics, grader semantics, expected facts, workflow stage
-  meaning, and local pass/fail policy.
+## Consumer responsibilities
 
-When a technical-design-specific concept appears in extracted code, choose one of two outcomes:
+Consumers own:
 
-1. Move it back into `technical-design`.
-2. Generalize it behind a consumer-supplied contract and document the generic name here.
+- case purpose;
+- source artifacts;
+- grader inputs;
+- domain schemas;
+- deterministic grader semantics;
+- report style;
+- Promptfoo variable resolution;
+- model-judge rubrics;
+- pass/fail policy;
+- decisions about which result artifacts are safe to commit.
 
-## Private Git tag consumption
+## Runtime flow
 
-Until publishing is reconsidered, downstream consumers should depend on a private Git tag rather than
-an npm release. The intended first usable tag is `v0.1.0` after Phase 3.
+```mermaid
+flowchart LR
+    User[User or agent]
+    CLI[eval-kit CLI]
+    Config[eval-kit.config.json]
+    Runtime[Eval Kit runtime]
+    Adapter[Consumer adapter]
+    Cases[Consumer cases]
+    Results[Result bundle]
 
-## Compatibility posture
+    User --> CLI
+    CLI --> Config
+    Config --> Runtime
+    Runtime --> Adapter
+    Runtime --> Cases
+    Adapter --> Runtime
+    Runtime --> Results
+```
 
-Once runtime entrypoints exist, package command contracts, schema namespaces, report formats, and
-bootstrap outputs are versioned boundaries. Breaking changes should be intentional, documented, and
-paired with consumer migration notes.
+## Deterministic run flow
+
+```mermaid
+sequenceDiagram
+    participant CLI as eval-kit run-case
+    participant Config as Config Loader
+    participant Case as Case Manifest
+    participant Adapter as Consumer Adapter
+    participant Writer as Result Writer
+
+    CLI->>Config: load config and schemas
+    Config->>Case: resolve case by id
+    Case-->>Config: artifacts and case dir
+    Config->>Adapter: import adapter.mjs
+    CLI->>Adapter: gradeCandidate(candidateText, graderInputs)
+    Adapter-->>CLI: verdict + findings
+    CLI->>Adapter: renderDeterministicReport(...)
+    CLI->>Writer: write grades/report/manifest/artifacts
+```
+
+## Model-assisted run flow
+
+Promptfoo-backed commands are optional. They are not part of deterministic bootstrap.
+
+```text
+resolveGenerationVars / resolvePointwiseVars / resolvePairwiseVars
+  -> bundled or consumer prompt template
+  -> Promptfoo run
+  -> raw Promptfoo output
+  -> parsed candidate or judge result
+  -> result bundle
+```
+
+Model judge outputs should be treated as advisory until a consumer has calibration evidence.
+
+## Versioned boundaries
+
+These are compatibility-sensitive:
+
+- CLI command names and required flags;
+- config schema version;
+- case manifest schema;
+- result manifest schema;
+- adapter hook names and input shapes;
+- generated bootstrap file layout;
+- bundled prompt variable names.
+
+Breaking changes require a version bump and migration notes.

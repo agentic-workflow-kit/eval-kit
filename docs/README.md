@@ -1,23 +1,15 @@
----
-title: eval-kit — documentation
-status: draft
----
+# eval-kit docs
 
-# eval-kit — documentation
+Docs are split by altitude:
 
-Documentation is organized by **altitude**: product intent above design mechanics.
+| Area                           | Purpose                                                      |
+| ------------------------------ | ------------------------------------------------------------ |
+| [`product/`](product/)         | What eval-kit is, who it serves, and why it exists.          |
+| [`design/`](design/)           | How eval-kit works internally and which decisions govern it. |
+| [`guides/`](guides/)           | Task-oriented usage instructions.                            |
+| [`reference/`](reference/)     | Exact CLI, config, adapter, result, and release details.     |
+| [`maintainers/`](maintainers/) | Maintainer checklists and operational notes.                 |
 
-| Layer                  | Owns                                       | Status |
-| ---------------------- | ------------------------------------------ | ------ |
-| [product/](./product/) | **What & why** — audience-facing intent.   | draft  |
-| [design/](./design/)   | **How** — mechanics, decisions, contracts. | draft  |
+Start with [`guides/quickstart.md`](guides/quickstart.md) if you want to use the package in a consumer repo.
 
-Suite-level framing (how this repo relates to the other products in the lifecycle) lives at the
-[organization profile](https://github.com/agentic-workflow-kit), not here. This repo stays scoped
-to its own concern.
-
-## Current phase
-
-Phase 1 records the agreed product/design handoff before implementation. It does not add runtime
-code, schemas, CLI behavior, skills, downstream integrations, repo-template templates, or publishing
-claims.
+Start with [`design/architecture.md`](design/architecture.md) if you are changing eval-kit itself.

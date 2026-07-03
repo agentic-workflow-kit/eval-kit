@@ -1,81 +1,105 @@
----
-title: eval-kit product brief
-status: draft
----
+# Eval Kit product overview
 
-# eval-kit Product Brief
+## Summary
 
-## Why this exists
+`eval-kit` gives `agentic-workflow-kit` repos a shared way to define, run, and inspect local evaluation suites without copying harness code between repos.
 
-`eval-kit` exists so agentic-workflow-kit repos can share evaluation mechanics without copying local
-harness code between products. It starts by extracting reusable mechanics from `technical-design`
-into `@agentic-workflow-kit/eval-kit`, while leaving repo-specific evaluation semantics with the
-consumer.
+It is deliberately small. It gives repos the mechanics for local evals, but each repo keeps ownership of what “good” means for its layer.
 
-The immediate user is a maintainer of `technical-design` or `eval-kit` who needs the same case
-manifest loading, fixture validation, runner plumbing, report shape, and command conventions to be
-available from one shared package instead of a local copy.
+## Audience
 
-## Scope now
+Primary users:
 
-Only two repos are in scope for the initial extraction:
+- maintainers of `agentic-workflow-kit` repos;
+- agents bootstrapping or running repo-local eval suites;
+- contributors adding deterministic checks or model-assisted evals;
+- future maintainers integrating `define-product`, `design-to-plan`, or learning-loop eval suites.
 
-- `eval-kit`: owns shared package mechanics and future bootstrap helpers.
-- `technical-design`: first consumer and source of the initial extraction.
+## Problem
 
-The following repos are deferred until the first extraction proves the shared boundary:
+The suite needs evaluation across several repos:
+
+```text
+define-product
+technical-design
+design-to-plan
+learning-loop later
+```
+
+Each layer needs different semantics:
+
+- Product cares about PRD quality and stable acceptance-criteria IDs.
+- Technical Design cares about source-grounded design quality, boundaries, and enforceability.
+- Planning cares about projection-only story decomposition and traceability.
+- Learning later cares about defect classification and durable prevention.
+
+All of those suites need similar mechanics: discovering cases, loading config, validating fixtures,
+running deterministic checks, writing reports, and optionally calling model judges. Copying that
+harness into every repo would create repeated maintenance work without improving the repo-specific
+semantics.
+
+## Product promise
+
+`eval-kit` provides a shared, versioned, private package for eval mechanics that consumer repos can adopt without surrendering their domain semantics.
+
+## What it does
+
+- Creates generic deterministic eval-suite scaffolding.
+- Discovers case manifests.
+- Loads consumer adapters.
+- Runs deterministic grading.
+- Writes machine-readable and Markdown result bundles.
+- Validates result artifacts.
+- Provides optional Promptfoo-backed generation and judging helpers.
+- Provides skills that guide agents through bootstrap, authoring, review, and running.
+
+## What it does not do
+
+- It does not publish to npm yet.
+- It does not own consumer grading semantics.
+- It does not define Product, Design, Planning, Jig, or Learning quality by itself.
+- It does not add anything to `repo-template`.
+- It does not make Promptfoo required for deterministic evals.
+- It does not make LLM judge verdicts authoritative without calibration.
+
+## Fit
+
+Use eval-kit when a repo needs:
+
+- local deterministic evals;
+- repeatable fixture validation;
+- structured result bundles;
+- a standard way for agents to bootstrap and run evals;
+- optional model-assisted grading with explicit caveats.
+
+Do not use eval-kit when:
+
+- a normal unit test is enough;
+- the repo needs runtime-specific test harnesses, such as Jig execution tests;
+- the eval semantics are not yet understood;
+- the change would freeze a downstream contract too early.
+
+## Current consumers
+
+- `technical-design` consumes `@agentic-workflow-kit/eval-kit` through a private Git tag.
+
+Deferred consumers:
 
 - `define-product`
 - `design-to-plan`
+- learning-loop
+
+Excluded for now:
+
 - `jig`
-- `learning-loop`
+- `repo-template`
 
-## Product boundary
+## Success criteria
 
-`eval-kit` owns reusable mechanics:
+Eval-kit succeeds when:
 
-- package entrypoints and command wrappers
-- common case discovery, manifest parsing, fixture checks, and report plumbing
-- generic schema mechanics and validator wiring
-- bootstrap helpers that create or update a consumer's eval harness files
-- shared skills that explain how to use and adapt the package
-
-Consumers own evaluation semantics:
-
-- domain-specific case content
-- repo-specific rubrics, graders, assertions, and prompts
-- product vocabulary and workflow stage meaning
-- local policy for what a passing evaluation proves
-
-## Packaging position
-
-The package stays private for now. Consumers should use a private Git tag dependency until there is
-enough implementation and adoption evidence to decide whether npm publishing is warranted. The docs
-must not claim npm publication.
-
-The initial version target is `v0.1.0` after Phase 3. That gives Phase 4 a complete initial package
-tag that `technical-design` can pin when it switches from local mechanics to the shared package.
-
-## Non-goals
-
-Phase 1 does not implement runtime code, schemas, CLI behavior, skills, downstream integrations, or
-repo-template work.
-
-The product is not Promptfoo-first. It may support Promptfoo-shaped workflows where useful, but the
-shared package boundary is the agentic-workflow-kit evaluation contract, not a wrapper around one
-external tool.
-
-`repo-template` does not include eval-kit integration now. New repos should not receive template
-eval scaffolding until the package contract is proven by `technical-design`.
-
-## Phase plan
-
-1. Phase 1: document product scope, design decisions, extraction risks, and implementation order.
-2. Phase 2: build the shared package mechanics in `eval-kit` without downstream consumer changes.
-3. Phase 3: add bootstrap CLI and skills, then cut the intended `v0.1.0` private Git tag.
-4. Phase 4: update `technical-design` to consume the tagged package and remove duplicated local
-   mechanics.
-
-Future phases can evaluate `define-product`, `design-to-plan`, and `learning-loop` after
-`technical-design` is pinned to a complete initial package. `jig` remains deferred until it has a
-real evaluation need that matches the shared boundary.
+- consumer repos can add deterministic local evals with minimal boilerplate;
+- result bundles are inspectable and stable enough for review;
+- shared mechanics improve without contaminating consumer semantics;
+- releases are tag-pinned and easy to consume;
+- model-assisted evals remain optional and calibrated.

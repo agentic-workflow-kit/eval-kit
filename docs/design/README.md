@@ -1,23 +1,12 @@
----
-title: eval-kit — design
-status: draft
----
+# Design docs
 
-# eval-kit — design
+Design docs define how eval-kit works and which decisions govern it.
 
-Design owns **how**: architecture, decisions, internal contracts, and formats. It implements and
-verifies the product promises in [`../product/`](../product/) and reconciles to them — where design
-and product intent conflict, name the conflict and resolve it deliberately, not by silent churn.
+Read:
 
-## Design docs
-
-- [architecture](./architecture.md) - package boundary and component map.
-- [decisions](./decisions.md) - append-only decision log.
-- [bootstrap CLI](./bootstrap-cli.md) - intended bootstrap command behavior.
-- [skills](./skills.md) - intended skill surface.
-- [extraction plan](./extraction-plan.md) - Phase 1-4 implementation order and risks.
-- [consumer integration plan](./consumer-integration-plan.md) - how `technical-design` will adopt
-  the package after the initial tag.
-
-Phase 1 documents the design plan only. Runtime source, schemas, commands, and skills land in later
-phases.
+- [`architecture.md`](architecture.md) - package boundaries and runtime model.
+- [`decisions.md`](decisions.md) - append-only decision log.
+- [`bootstrap-cli.md`](bootstrap-cli.md) - init/scaffold/doctor/list-cases design.
+- [`consumer-integration.md`](consumer-integration.md) - how consumer repos adopt the package.
+- [`technical-design-follow-up.md`](technical-design-follow-up.md) - required technical-design Promptfoo variable fix.
+- [`skills.md`](skills.md) - agent-facing skill design.
