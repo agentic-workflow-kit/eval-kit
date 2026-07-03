@@ -65,7 +65,12 @@ Input:
 
 ```js
 {
-  (caseId, grades, findings, caseDir, candidatePath, resolver);
+  caseId,
+  grades,
+  findings,
+  caseDir,
+  candidatePath,
+  resolver,
 }
 ```
 
@@ -167,6 +172,22 @@ export const resolvePairwiseVars = async ({
   candidate_order: randomizedOrder.candidate_order.join(", "),
 });
 ```
+
+`judgePairwise` randomizes the displayed candidate order before it calls
+`resolvePairwiseVars`. The `candidateAContent`, `candidateBContent`, `candidateAPath`, and
+`candidateBPath` inputs are displayed Candidate A/B slots, not necessarily the original
+`--candidate-a` and `--candidate-b` CLI inputs.
+
+Use `randomizedOrder` to preserve the mapping:
+
+- `randomizedOrder.original_order` records the original labels: `candidate_a`, then
+  `candidate_b`.
+- `randomizedOrder.candidate_order` records which original candidate keys were shown in displayed
+  Candidate A/B order.
+
+Adapters must not randomize candidate order again. They should pass the displayed Candidate A/B
+values through to the prompt variables and include the provided randomization metadata in model
+judge inputs and outputs.
 
 ## Manual report hook
 

@@ -112,6 +112,11 @@ eval-kit judge-coverage \
 
 Run Promptfoo-backed pairwise comparison.
 
+Eval-kit randomizes which original CLI candidate is displayed as Candidate A or Candidate B before
+calling the consumer adapter. The adapter receives displayed Candidate A/B content and paths plus
+`randomizedOrder`, which records the original-to-displayed mapping. Adapters should not apply their
+own second randomization pass.
+
 ```bash
 eval-kit judge-pairwise \
   --case <id> \

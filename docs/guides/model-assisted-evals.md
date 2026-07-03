@@ -98,6 +98,12 @@ Pairwise:
 }
 ```
 
+For pairwise judging, eval-kit randomizes display slots before calling `resolvePairwiseVars`.
+`candidate_a` and `candidate_b` should contain the displayed Candidate A/B content supplied to the
+adapter. `original_order` records the original CLI labels, and `candidate_order` records which
+original candidate keys were displayed in Candidate A/B order. Do not randomize again inside the
+adapter.
+
 ## Bias controls
 
 Model judge prompts should:
