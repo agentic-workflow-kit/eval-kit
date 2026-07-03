@@ -1,8 +1,3 @@
----
-title: eval-kit decisions
-status: draft
----
-
 # eval-kit Decisions
 
 This log is append-only. Amend a decision only for typo-level clarity; record later changes as new
@@ -35,8 +30,8 @@ local pass/fail policy.
 
 Status: accepted
 
-Do not add eval-kit integration or templates to `repo-template` now. Template integration is deferred
-until a real consumer proves the package contract.
+Do not add eval-kit integration or templates to `repo-template` now. Template integration is
+deferred until a real consumer proves the package contract.
 
 ## D-005 Add bootstrapping functionality to Eval Kit itself
 
@@ -76,3 +71,15 @@ Status: accepted
 Phase 3 ships only a generic deterministic bootstrap skeleton. Suite-specific presets such as
 technical-design, define-product, design-to-plan, jig, and learning-loop remain deferred until each
 consumer has an explicit design for which semantics stay local and which mechanics are shared.
+
+## D-010 Releases are Git tags until publishing is revisited
+
+Status: accepted
+
+A release consists of a version bump, changelog update, release commit, annotated Git tag, pushed tag, and consumer bump PRs. Do not move tags after consumers pin them.
+
+## D-011 Prompt template variable names are compatibility surfaces
+
+Status: accepted
+
+Bundled prompt templates and adapter hook return keys must stay aligned. If a bundled prompt changes expected variables, update the adapter contract, tests, and known consumers in the same release or provide migration notes.

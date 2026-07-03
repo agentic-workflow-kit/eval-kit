@@ -1,67 +1,101 @@
----
-title: eval-kit bootstrap CLI
-status: implemented
----
+# Bootstrap CLI design
 
-# Bootstrap CLI
+## Goal
 
-## Decision
+The bootstrap CLI gives a consumer repo a working deterministic eval harness without requiring the author to remember every file path by hand. Apparently humans do not enjoy memorizing manifest layouts. Strange, but accepted.
 
-`eval-kit` will include bootstrap functionality in the package itself. The bootstrap flow is for
-consumer repos that want to add or refresh the local files needed to call the shared mechanics.
+## Commands
 
-## Command surface
+```text
+eval-kit init
+eval-kit scaffold-case
+eval-kit doctor
+eval-kit list-cases
+```
 
-- `eval-kit init --suite generic [--dry-run] [--force]`
-- `eval-kit scaffold-case --case <id> [--config <path>] [--dry-run] [--force]`
-- `eval-kit doctor [--config <path>]`
-- `eval-kit list-cases [--config <path>]`
+## `init`
 
-The default config path is `evals/eval-kit.config.json`, matching the generated skeleton.
+Creates a generic deterministic suite skeleton.
 
-## Generated generic skeleton
+```bash
+eval-kit init --suite generic --dry-run
+eval-kit init --suite generic
+```
 
-`eval-kit init --suite generic` writes only deterministic generic harness files:
+Generated files:
 
-- `evals/eval-kit.config.json`
-- `evals/adapter.mjs`
-- `evals/cases/README.md`
-- `evals/results/README.md`
+```text
+evals/
+  eval-kit.config.json
+  adapter.mjs
+  cases/
+    README.md
+  results/
+    README.md
+```
 
-The command supports dry-run output and refuses to overwrite existing files unless `--force` is
-passed. It does not install Promptfoo, require Codex auth, or generate technical-design semantics.
+Rules:
 
-`eval-kit scaffold-case --case <id>` validates a safe case id and writes:
+- `--suite generic` is the only required supported suite for now.
+- `--dry-run` prints planned files and writes nothing.
+- existing files are not overwritten unless `--force` is set.
+- generated config disables model-assisted commands by default.
+- generated adapter is deliberately generic and should be replaced by consumer semantics.
 
-- `case-manifest.json`
-- `input.md`
-- `expected-items.json`
-- `rubric.md`
+## `scaffold-case`
 
-The case is placed under the configured `cases.root`, uses generic deterministic artifacts, and
-refuses overwrite unless `--force` is passed.
+Creates a generic deterministic case.
 
-## Doctor checks
+```bash
+eval-kit scaffold-case --case case-example-v1
+```
 
-`eval-kit doctor` validates:
+Generated files:
 
-- config file existence and schema compatibility
-- contained suite and results roots
-- results-root writability
-- adapter import
-- configured case manifest discovery
-- case artifact paths
-- adapter fixture validation hooks
-- Promptfoo availability only when Promptfoo-backed methods are enabled
+```text
+evals/cases/case-example-v1/
+  case-manifest.json
+  input.md
+  expected-items.json
+  rubric.md
+```
 
-## Non-goals
+Rules:
 
-The bootstrap command must not:
+- case ID must be an ID, not a path;
+- case directory is resolved from config `cases.root`;
+- existing files are not overwritten unless `--force` is set;
+- scaffolded expectations are placeholders, not meaningful pass/fail semantics.
 
-- publish the package
-- integrate `repo-template`
-- assume every repo should use eval-kit
-- generate product semantics for a consumer
-- make Promptfoo the primary contract
-- update downstream repos during Phase 3
-- create suite-specific presets beyond the generic deterministic skeleton until they are designed
+## `doctor`
+
+Validates a suite setup.
+
+Checks:
+
+- config loads and validates;
+- suite root exists;
+- results root is writable;
+- adapter imports;
+- case manifests resolve;
+- artifact paths exist;
+- duplicate case IDs fail;
+- consumer fixture validation hook passes;
+- Promptfoo exists only when model-assisted methods are enabled.
+
+## `list-cases`
+
+Lists discovered case IDs from the configured case manifests.
+
+## Test expectations
+
+Bootstrap tests should cover:
+
+- dry-run writes nothing;
+- init creates expected files;
+- overwrite refusal and `--force` behavior;
+- doctor on empty suite;
+- scaffolded case discovery;
+- duplicate case IDs;
+- missing artifact paths;
+- path-shaped case ID rejection.
