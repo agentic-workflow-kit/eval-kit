@@ -53,7 +53,7 @@ Commands:
     [--run-id <id>]
     [--config <path>]
 
-  generate          Generate a candidate design using Promptfoo
+  generate          Generate a candidate artifact using Promptfoo
     --case <id>
     --model <name>
     --provider <name>
@@ -61,7 +61,7 @@ Commands:
     --run-id <id>
     [--config <path>]
 
-  judge-coverage    Pointwise judge expected facts and boundaries coverage
+  judge-coverage    Pointwise judge expected item coverage
     --case <id>
     --candidate <path>
     --model <name>

@@ -32,7 +32,7 @@ Current schema:
   "run_type": "deterministic",
   "runner": {
     "id": "generic-eval-case",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "case_ids": ["case-example-v1"],
   "started_at": "2026-07-03T00:00:00.000Z",
@@ -99,5 +99,10 @@ candidate.md
 pointwise-result.json
 pairwise-result.json
 ```
+
+For `judge-pairwise`, `pairwise-result.json` stores the final winner normalized back to the original
+CLI candidate labels. Its `randomization.original_order` field records the original
+`candidate_a`/`candidate_b` labels, and `randomization.candidate_order` records which original
+candidate keys were displayed as Candidate A/B for the model judge.
 
 Treat these as potentially sensitive.

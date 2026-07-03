@@ -13,6 +13,19 @@ documented with migration notes.
 - Additional docs for suite-specific adoption.
 - Better compatibility tests for Promptfoo variable contracts.
 
+## [0.1.1] - 2026-07-03
+
+### Changed
+
+- Clarified generic CLI help wording for candidate artifacts and expected items.
+- Documented pairwise adapter display-slot semantics.
+- Fixed adapter contract reporter example.
+
+### Notes
+
+- No npm package is published.
+- Consumers may pin `github:agentic-workflow-kit/eval-kit#v0.1.1`.
+
 ## [0.1.0] - 2026-07-02
 
 ### Added
@@ -37,5 +50,6 @@ documented with migration notes.
 - Suite-specific presets remain deferred.
 - Consumer repos own their own semantics, prompts, cases, and pass/fail policies.
 
-[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.0...main
+[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.1...main
+[0.1.1]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/agentic-workflow-kit/eval-kit/releases/tag/v0.1.0
