@@ -18,7 +18,7 @@ If you cannot state the eval goal, do not bootstrap a suite yet. Empty harnesses
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.2"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
   }
 }
 ```
@@ -77,6 +77,26 @@ Use three lanes:
 
 Do not add run-producing semantic portfolios or model-assisted evals to the default CI gate. If a
 consumer wants a deterministic subset in `pnpm check`, keep it short, offline, and structural.
+
+## Add manual pointwise judging
+
+When a consumer is ready for pointwise model judging, add a separate
+`evals/eval-kit.model-judge.config.json` instead of toggling model methods in the default
+deterministic config.
+
+Standard scripts:
+
+```json
+{
+  "eval:judge:doctor": "eval-kit doctor --config evals/eval-kit.model-judge.config.json",
+  "eval:judge:list": "eval-kit list-cases --config evals/eval-kit.model-judge.config.json",
+  "eval:judge:validate-fixtures": "eval-kit validate-fixtures --config evals/eval-kit.model-judge.config.json",
+  "eval:judge:coverage": "eval-kit judge-coverage --config evals/eval-kit.model-judge.config.json"
+}
+```
+
+Keep `generate`, `judge_pairwise`, and `report` disabled in this manual config. Add pairwise later
+with a separate config only after the consumer has calibrated pointwise evidence.
 
 ## Review checklist
 

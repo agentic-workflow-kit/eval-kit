@@ -13,13 +13,17 @@ Use this skill when auditing or reviewing an eval-kit suite.
 2. Run `pnpm exec eval-kit doctor` and treat failures as primary evidence.
 3. Run `pnpm exec eval-kit list-cases` and inspect representative case manifests and artifacts.
 4. Check whether generated or shared files contain consumer semantics that should stay local, or local files duplicate kit mechanics unnecessarily.
-5. If reviewing a change, verify overwrite behavior and generated files with a dry run where relevant.
+5. If model judging is present, confirm the default config stays deterministic and a separate manual
+   model-judge config owns pointwise `judge_coverage`.
+6. If reviewing a change, verify overwrite behavior and generated files with a dry run where relevant.
 
 ## Boundaries
 
 - Mechanics belong in eval-kit; product vocabulary, rubric policy, cases, and expected outputs belong in the consumer.
 - Do not require Promptfoo for deterministic suites.
 - Treat model-assisted judging as advisory unless the consumer documents calibration and acceptance thresholds.
+- Prefer `evals/eval-kit.model-judge.config.json` for manual pointwise judging; do not require users
+  to flip enabled flags in the deterministic config.
 - Treat run-producing semantic portfolios as local on-demand evidence before significant changes, not default CI.
 - Do not claim suite readiness without command evidence.
 

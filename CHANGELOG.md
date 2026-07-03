@@ -9,9 +9,23 @@ documented with migration notes.
 
 ### Planned
 
-- Consumer integration hardening.
 - Additional docs for suite-specific adoption.
 - Better compatibility tests for Promptfoo variable contracts.
+
+## [0.1.3] - 2026-07-04
+
+### Added
+
+- Documented the standard two-config pattern for deterministic and manual pointwise model-judge
+  consumer eval lanes.
+- Updated eval-kit skills to direct agents toward manual model-judge configs while keeping provider
+  calls out of default CI gates.
+
+### Notes
+
+- No runtime, schema, or CLI behavior changed.
+- No npm package is published.
+- Consumers may pin `github:agentic-workflow-kit/eval-kit#v0.1.3`.
 
 ## [0.1.2] - 2026-07-03
 
@@ -63,7 +77,8 @@ documented with migration notes.
 - Suite-specific presets remain deferred.
 - Consumer repos own their own semantics, prompts, cases, and pass/fail policies.
 
-[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.2...main
+[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.3...main
+[0.1.3]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/agentic-workflow-kit/eval-kit/releases/tag/v0.1.0

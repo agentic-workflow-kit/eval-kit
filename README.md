@@ -11,7 +11,7 @@ Shared evaluation infrastructure for `agentic-workflow-kit` repositories.
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.2"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
   }
 }
 ```
@@ -70,7 +70,7 @@ Install from a Git tag in a consumer repo:
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.2"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
   },
   "scripts": {
     "eval:doctor": "eval-kit doctor --config evals/eval-kit.config.json",
@@ -155,6 +155,7 @@ Start here:
 - [`docs/design/README.md`](docs/design/README.md) - architecture, decisions, and contracts.
 - [`docs/guides/quickstart.md`](docs/guides/quickstart.md) - bootstrap and first deterministic run.
 - [`docs/guides/consumer-integration.md`](docs/guides/consumer-integration.md) - add eval-kit to another repo.
+- [`docs/guides/model-assisted-evals.md`](docs/guides/model-assisted-evals.md) - configure manual model-judge lanes.
 - [`docs/reference/adapter-contract.md`](docs/reference/adapter-contract.md) - adapter exports and hook shapes.
 - [`docs/reference/release-process.md`](docs/reference/release-process.md) - version and tag process.
 
@@ -189,6 +190,7 @@ For now, releases are Git tags that consumers pin in `package.json`:
 v0.1.0
 v0.1.1
 v0.1.2
+v0.1.3
 v0.2.0
 ```
 

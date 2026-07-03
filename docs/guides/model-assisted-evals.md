@@ -26,6 +26,33 @@ A consumer repo must provide:
 - result review process;
 - calibration policy before using judge results as gates outside default CI.
 
+## Standard consumer config
+
+Use two configs for pointwise model judging:
+
+- `evals/eval-kit.config.json` is the default deterministic config. It is the only config that
+  belongs in `pnpm check` or CI. Keep `generate`, `judge_coverage`, and `judge_pairwise` disabled.
+- `evals/eval-kit.model-judge.config.json` is the manual pointwise config. Enable
+  `judge_coverage`, disable `generate`, `judge_pairwise`, and `report`, and include only the cases
+  the consumer has chosen for manual judge calibration.
+
+Use stable script names so agents can run the right config without guessing:
+
+```json
+{
+  "eval:judge:doctor": "eval-kit doctor --config evals/eval-kit.model-judge.config.json",
+  "eval:judge:list": "eval-kit list-cases --config evals/eval-kit.model-judge.config.json",
+  "eval:judge:validate-fixtures": "eval-kit validate-fixtures --config evals/eval-kit.model-judge.config.json",
+  "eval:judge:coverage": "eval-kit judge-coverage --config evals/eval-kit.model-judge.config.json"
+}
+```
+
+Do not ask contributors to temporarily flip `judge_coverage` in the deterministic config. That
+creates drift between local manual runs and CI-safe defaults.
+
+Pairwise judging is a separate follow-up lane. Add `evals/eval-kit.pairwise.config.json` only after
+the consumer has calibrated pointwise evidence and a specific comparison need.
+
 ## Commands
 
 ```bash
@@ -38,6 +65,7 @@ pnpm exec eval-kit generate \
 
 
 pnpm exec eval-kit judge-coverage \
+  --config evals/eval-kit.model-judge.config.json \
   --case <case-id> \
   --candidate <candidate.md> \
   --model <model> \
