@@ -9,6 +9,7 @@ Use SemVer-style versions:
 ```text
 0.1.0
 0.1.1
+0.1.2
 0.2.0
 ```
 
@@ -26,7 +27,7 @@ Use patch for:
 Example:
 
 ```text
-0.1.0 -> 0.1.1
+0.1.1 -> 0.1.2
 ```
 
 ## Minor version
