@@ -27,7 +27,12 @@ Consumer repos should adopt eval-kit through a pinned Git tag and keep their eva
 }
 ```
 
-Consumers decide whether evals are part of `pnpm check`. Start with manual scripts until the suite is stable, then add deterministic checks to `pnpm check`.
+Consumers decide which eval checks belong in each lane. Keep `pnpm check` fast, offline, and
+structural: format/lint, static schema/docs validation, adapter import/syntax validation, fixture
+manifest validation, local grader/helper unit tests, and seeded fixture checks that do not call
+external providers. Run deterministic semantic case portfolios locally before significant changes.
+Keep Promptfoo/Codex generation, LLM judge coverage, pairwise judging, long session evals, and
+expensive full-case replays manual/advisory rather than default CI gates.
 
 ## Consumer-owned files
 
@@ -50,9 +55,9 @@ evals/
 - [ ] Bootstrap or create evals/ files.
 - [ ] Replace generic adapter semantics with repo-local semantics.
 - [ ] Add at least one deterministic case.
-- [ ] Run eval-kit doctor.
+- [ ] Run `pnpm exec eval-kit doctor`.
 - [ ] Run one deterministic case.
-- [ ] Decide whether deterministic evals enter pnpm check.
+- [ ] Decide whether any fast, offline structural checks enter `pnpm check`.
 - [ ] Document local eval commands in README or evals/README.md.
 ```
 
@@ -63,3 +68,4 @@ evals/
 - Do not put suite semantics into eval-kit.
 - Do not enable Promptfoo commands without local dependency/auth setup.
 - Do not trust model judges without calibration.
+- Do not require auth, network, external providers, or manual calibration in `pnpm check`.

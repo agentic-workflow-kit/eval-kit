@@ -1,6 +1,7 @@
 # Model-assisted evals
 
-Model-assisted evals are optional. Deterministic evals are the default.
+Model-assisted evals are optional manual/advisory checks. Deterministic evals are the default
+local evidence path, and model-assisted commands are never default CI gates.
 
 ## When to use
 
@@ -23,12 +24,12 @@ A consumer repo must provide:
 - adapter hooks for prompt variables;
 - rubrics;
 - result review process;
-- calibration policy before using judge results as gates.
+- calibration policy before using judge results as gates outside default CI.
 
 ## Commands
 
 ```bash
-eval-kit generate \
+pnpm exec eval-kit generate \
   --case <case-id> \
   --model <model> \
   --provider openai \
@@ -36,7 +37,7 @@ eval-kit generate \
   --run-id <run-id>
 
 
-eval-kit judge-coverage \
+pnpm exec eval-kit judge-coverage \
   --case <case-id> \
   --candidate <candidate.md> \
   --model <model> \
@@ -45,7 +46,7 @@ eval-kit judge-coverage \
   --run-id <run-id>
 
 
-eval-kit judge-pairwise \
+pnpm exec eval-kit judge-pairwise \
   --case <case-id> \
   --candidate-a <a.md> \
   --candidate-b <b.md> \

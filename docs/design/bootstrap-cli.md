@@ -18,8 +18,8 @@ eval-kit list-cases
 Creates a generic deterministic suite skeleton.
 
 ```bash
-eval-kit init --suite generic --dry-run
-eval-kit init --suite generic
+pnpm exec eval-kit init --suite generic --dry-run
+pnpm exec eval-kit init --suite generic
 ```
 
 Generated files:
@@ -47,7 +47,7 @@ Rules:
 Creates a generic deterministic case.
 
 ```bash
-eval-kit scaffold-case --case case-example-v1
+pnpm exec eval-kit scaffold-case --case case-example-v1
 ```
 
 Generated files:
@@ -82,6 +82,10 @@ Checks:
 - duplicate case IDs fail;
 - consumer fixture validation hook passes;
 - Promptfoo exists only when model-assisted methods are enabled.
+
+Policy note: `doctor` reports suite validity, not CI policy compliance. Consumer default CI should
+stay fast and offline, without run-producing, model-assisted, networked, or manually calibrated
+evals.
 
 ## `list-cases`
 

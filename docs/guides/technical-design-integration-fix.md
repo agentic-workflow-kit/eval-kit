@@ -13,7 +13,7 @@ This guide is for the follow-up PR in `agentic-workflow-kit/technical-design`.
 3. Inspect `evals/adapter.mjs`.
 4. Update generation, pointwise, and pairwise variable resolvers to include the generic keys expected by eval-kit prompts.
 5. Add unit tests for adapter variable contracts.
-6. Run the normal gate and deterministic smoke.
+6. Run the fast/offline `pnpm check` gate and the local on-demand deterministic smoke.
 
 ## Required keys
 
@@ -59,7 +59,7 @@ pnpm check
 pnpm eval:case -- --case case-tiny-laundry-pickup-v1 --candidate evals/cases/case-tiny-laundry-pickup-v1/reference-design.md --run-id verify-shared-eval-kit
 ```
 
-Optional if auth is available:
+Manual/advisory if auth is available:
 
 ```bash
 pnpm eval:generate -- --case case-tiny-laundry-pickup-v1 --model <model> --provider openai --effort medium --run-id verify-generation-vars
