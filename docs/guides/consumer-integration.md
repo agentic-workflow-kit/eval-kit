@@ -18,7 +18,7 @@ If you cannot state the eval goal, do not bootstrap a suite yet. Empty harnesses
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.6"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.7"
   }
 }
 ```
