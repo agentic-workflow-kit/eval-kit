@@ -24,7 +24,7 @@ A consumer repo must provide:
 - adapter hooks for prompt variables;
 - rubrics;
 - result review process;
-- calibration policy before using judge results as gates outside default CI.
+- calibration policy before treating judge results as anything more than advisory evidence.
 
 ## Standard consumer config
 
@@ -154,10 +154,35 @@ Model judge prompts should:
 
 ## Calibration
 
-Before using model judges as gates, keep a human-reviewed golden set and track:
+Calibration starts from committed expected-good and expected-bad fixtures. A judge run is useful
+only when a human reviewer can explain whether each verdict matched the fixture intent.
+
+Pointwise verdicts have these default meanings:
+
+- `covered`: the candidate clearly satisfies the item with cited evidence.
+- `partial`: the candidate has some relevant evidence but does not fully satisfy the item. Treat it
+  as non-covered unless the consumer policy explicitly accepts that item as non-critical.
+- `missing`: the candidate lacks enough evidence for the item.
+- `contradicted`: the candidate conflicts with the expected item.
+- `unknown`: the visible evidence is too ambiguous to judge. Track this as ambiguity or prompt/item
+  weakness until reviewed.
+
+For expected-good fixtures, critical items should be `covered`; any critical `partial`, `missing`,
+`contradicted`, or repeated `unknown` needs human review. For expected-bad fixtures, adverse
+verdicts such as `partial`, `missing`, `contradicted`, or `unknown` are expected when they match the
+fixture's intended defect. Bad fixtures should not receive pass-like `covered` verdicts for the
+targeted critical defect.
+
+Before using model judges as review evidence, keep a human-reviewed golden set and track:
 
 - false passes on invented facts;
 - false failures on acceptable alternatives;
+- expected-bad fixtures that receive pass-like coverage;
+- critical `partial` or `unknown` verdicts on expected-good fixtures;
 - position bias in pairwise comparison;
 - verbosity bias;
 - over-reliance on reference wording.
+
+Raw Promptfoo and provider outputs should stay under ignored `evals/results/` paths unless a human
+curates a summary. Reports should present deterministic verdicts first and state that model-judge
+results cannot upgrade deterministic blockers.

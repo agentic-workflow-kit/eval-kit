@@ -24,9 +24,15 @@ Use this skill when auditing or reviewing an eval-kit suite.
 - Treat model-assisted judging as advisory unless the consumer documents calibration and acceptance thresholds.
 - Prefer `evals/eval-kit.model-judge.config.json` for manual pointwise judging; do not require users
   to flip enabled flags in the deterministic config.
+- Review expected-good and expected-bad calibration separately. Expected-bad fixtures should produce
+  adverse evidence on the targeted defect; pass-like `covered` verdicts for that defect are false
+  passes.
+- Treat `partial` as non-covered unless the consumer explicitly documents why a non-critical partial
+  is acceptable. Repeated `unknown` verdicts are calibration or prompt-quality risks.
 - Treat run-producing semantic portfolios as local on-demand evidence before significant changes, not default CI.
 - Do not claim suite readiness without command evidence.
 
 ## Evidence
 
-Report command results, reviewed case ids, concrete boundary issues, and remaining risks.
+Report command results, reviewed case ids, concrete boundary issues, calibration false pass/false
+fail risks, `partial`/`unknown` interpretation, and remaining risks.

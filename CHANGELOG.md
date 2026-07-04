@@ -12,6 +12,22 @@ documented with migration notes.
 - Additional docs for suite-specific adoption.
 - Better compatibility tests for Promptfoo variable contracts.
 
+## [0.1.5] - 2026-07-04
+
+### Added
+
+- Documented shared manual pointwise model-judge calibration and reporting policy.
+- Clarified `covered`, `partial`, `missing`, `contradicted`, and `unknown` interpretation.
+- Updated eval-kit skills to report deterministic evidence first, keep raw provider bundles local
+  unless curated, and treat expected-bad fixtures as successful calibration evidence when they
+  remain adverse.
+
+### Notes
+
+- No runtime, schema, prompt, or CLI behavior changed.
+- No npm package is published.
+- Consumers may pin `github:agentic-workflow-kit/eval-kit#v0.1.5`.
+
 ## [0.1.4] - 2026-07-04
 
 ### Fixed
@@ -91,7 +107,8 @@ documented with migration notes.
 - Suite-specific presets remain deferred.
 - Consumer repos own their own semantics, prompts, cases, and pass/fail policies.
 
-[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.4...main
+[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.5...main
+[0.1.5]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.1...v0.1.2

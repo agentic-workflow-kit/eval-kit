@@ -26,6 +26,9 @@ standard two-config pattern:
 - Add scripts named `eval:judge:doctor`, `eval:judge:list`, `eval:judge:validate-fixtures`, and
   `eval:judge:coverage` that point at the manual config.
 - Keep pairwise out of this standard setup. Add a separate pairwise config only after calibration.
+- Document the local calibration policy before treating pointwise results as more than raw advisory
+  evidence. The policy should define expected-good and expected-bad fixture labels, `partial` and
+  `unknown` handling, and where curated summaries live.
 
 ## Boundaries
 
@@ -35,6 +38,7 @@ standard two-config pattern:
 - Do not install Promptfoo or require Codex auth for deterministic bootstrap.
 - Do not add run-producing, model-assisted, networked, or manually calibrated evals to default CI.
 - Do not tell users to edit the deterministic config to enable manual judge runs.
+- Do not commit raw provider result bundles unless a human has curated them according to repo policy.
 - Use `--force` only after inspecting existing files and deciding the overwrite is intended.
 
 ## Evidence
