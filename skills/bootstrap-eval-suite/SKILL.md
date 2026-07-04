@@ -29,6 +29,8 @@ standard two-config pattern:
 - Document the local calibration policy before treating pointwise results as more than raw advisory
   evidence. The policy should define expected-good and expected-bad fixture labels, `partial` and
   `unknown` handling, and where curated summaries live.
+- For curated summaries, use the shared count shape for `covered`, `partial`, `missing`,
+  `contradicted`, and `unknown`, then add consumer-owned false-pass and false-fail notes.
 
 ## Boundaries
 

@@ -137,6 +137,40 @@ describe("eval-kit schema registry", () => {
     ).not.toThrow();
   });
 
+  it("accepts current pointwise model-run metadata fields", () => {
+    const registry = createSchemaRegistry({
+      schemaRoots: [path.resolve(import.meta.dirname, "../schemas")],
+    });
+    expect(() =>
+      registry.validateWithSchema(
+        "result-manifest.v2.schema.json",
+        {
+          schema_version: "eval-kit.result-manifest.v2",
+          run_id: "provider-20260704-case-good",
+          run_type: "judge-coverage",
+          runner: { id: "suite-pointwise-judge", version: "0.1.8" },
+          case_ids: ["case-a"],
+          started_at: "2026-07-04T00:00:00.000Z",
+          ended_at: "2026-07-04T00:00:01.000Z",
+          duration_ms: 1000,
+          status: "completed",
+          git: { commit: "abc123" },
+          command: "pnpm eval:judge:coverage",
+          tool_versions: { node: "v26.4.0" },
+          artifacts: [],
+          output_files: ["manifest.json"],
+          model: "gpt-5.4",
+          provider: "openai:codex-app-server",
+          model_provider: "openai:codex-app-server:gpt-5.4",
+          reasoning_effort: "medium",
+          prompt_version: "pointwise-v1",
+          rubric_version: "rubric-v1",
+        },
+        "manifest",
+      ),
+    ).not.toThrow();
+  });
+
   it("resolves bundled prompt and schema fallbacks for consumer configs", () => {
     const config = loadConfig(
       path.resolve(

@@ -9,7 +9,7 @@ Consumer repos should adopt eval-kit through a pinned Git tag and keep their eva
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.7"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.8"
   }
 }
 ```

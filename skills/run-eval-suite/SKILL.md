@@ -29,6 +29,9 @@ Use this skill when executing a local eval-kit suite.
   scripts before any manual `eval:judge:coverage` run.
 - For pointwise model-judge summaries, treat `partial`, `missing`, `contradicted`, and `unknown` as
   non-covered unless the consumer policy explicitly accepts the item.
+- Prefer the eval-kit pointwise summary helpers for curated report counts, and record
+  expected-good/expected-bad labels plus false-pass/false-fail notes when summarizing manual judge
+  evidence.
 - Expected-bad fixtures should remain adverse on their intended defect. Do not describe an adverse
   bad-fixture result as a failed eval when it matches the calibration label.
 - Preserve raw outputs according to the consumer repo's artifact policy.
@@ -38,4 +41,6 @@ Use this skill when executing a local eval-kit suite.
 Report the config path, cases run, result directories, verdicts, report paths, and any skipped or
 advisory-only checks. For model-assisted runs, state that provider calls were explicitly requested.
 Report deterministic evidence first, then model-judge counts for `covered`, `partial`, `missing`,
-`contradicted`, and `unknown`.
+`contradicted`, and `unknown`. If a pointwise result manifest is missing run id, case id, model,
+provider, prompt version, rubric version, runner version, or artifact paths, treat that run as
+invalid evidence.

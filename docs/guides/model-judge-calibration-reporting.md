@@ -43,5 +43,15 @@ Manual reports should be written for reviewer handoff, not CI:
   risks;
 - state that model-judge evidence cannot upgrade deterministic red or yellow results.
 
+Eval-kit exposes `countPointwiseVerdicts` and `formatPointwiseCalibrationSummary` as a shared
+summary pattern. Consumers may use these helpers when writing curated notes or report hooks, but the
+consumer still owns expected-good/expected-bad labels, critical-item policy, and false-pass or
+false-fail interpretation.
+
+For pointwise result bundles, eval-kit fails closed when required run metadata is absent or
+mismatched. A valid pointwise run records run id, one case id, model, provider, reasoning effort when
+present, prompt version, rubric version, runner version, and the artifact/output paths for the
+pointwise result bundle.
+
 Keep raw provider bundles under ignored `evals/results/` paths unless a human curates and commits a
 summary.

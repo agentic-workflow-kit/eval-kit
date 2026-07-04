@@ -20,6 +20,13 @@ export {
   runPromptfooRaw,
 } from "./promptfoo.mjs";
 export { aggregateVerdict, criticalBlockerCount } from "./verdict.mjs";
+export {
+  POINTWISE_VERDICTS,
+  countPointwiseVerdicts,
+  formatPointwiseCalibrationSummary,
+  formatPointwiseVerdictCounts,
+  validatePointwiseRunMetadata,
+} from "./pointwise.mjs";
 
 export { loadConfig } from "./config.mjs";
 export {

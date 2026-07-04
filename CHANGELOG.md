@@ -12,6 +12,26 @@ documented with migration notes.
 - Additional docs for suite-specific adoption.
 - Better compatibility tests for Promptfoo variable contracts.
 
+## [0.1.8] - 2026-07-04
+
+### Added
+
+- Added generic pointwise summary helpers for advisory verdict counts and calibration notes.
+- Documented the shared pointwise report summary pattern for curated manual evidence.
+
+### Fixed
+
+- Hardened pointwise judge result handling so provider, prompt version, rubric version, and run
+  manifest metadata must match the configured run before the result bundle is written.
+- Added regression tests for malformed or missing pointwise run metadata.
+
+### Notes
+
+- Deterministic `run-case` and manual `report` compatibility are preserved.
+- Consumer repos still own judge semantics, prompts, fixtures, and calibration policy.
+- No npm package is published.
+- Consumers may pin `github:agentic-workflow-kit/eval-kit#v0.1.8`.
+
 ## [0.1.7] - 2026-07-04
 
 ### Fixed
@@ -135,7 +155,8 @@ documented with migration notes.
 - Suite-specific presets remain deferred.
 - Consumer repos own their own semantics, prompts, cases, and pass/fail policies.
 
-[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.7...main
+[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.8...main
+[0.1.8]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.4...v0.1.5
