@@ -6,7 +6,7 @@ Consumers depend on tags like:
 
 ```json
 {
-  "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.0"
+  "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#vX.Y.Z"
 }
 ```
 
