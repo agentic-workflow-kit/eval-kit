@@ -39,7 +39,7 @@ Current schema:
   "run_type": "deterministic",
   "runner": {
     "id": "generic-eval-case",
-    "version": "0.1.7"
+    "version": "0.1.8"
   },
   "case_ids": ["case-example-v1"],
   "started_at": "2026-07-03T00:00:00.000Z",
@@ -113,3 +113,9 @@ CLI candidate labels. Its `randomization.original_order` field records the origi
 candidate keys were displayed as Candidate A/B for the model judge.
 
 Treat these as potentially sensitive.
+
+Pointwise `judge-coverage` manifests fail closed if required run metadata is missing or mismatched.
+Required pointwise metadata includes the run id, exactly one case id, model, provider, reasoning
+effort when supplied, prompt version, rubric version, runner version, and artifact/output paths for
+the pointwise report, structured pointwise result, Promptfoo config, raw Promptfoo results, and HTML
+report.

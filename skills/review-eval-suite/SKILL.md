@@ -29,6 +29,9 @@ Use this skill when auditing or reviewing an eval-kit suite.
   passes.
 - Treat `partial` as non-covered unless the consumer explicitly documents why a non-critical partial
   is acceptable. Repeated `unknown` verdicts are calibration or prompt-quality risks.
+- Verify pointwise run metadata before trusting manual judge evidence: run id, one case id, model,
+  provider, reasoning effort when present, prompt version, rubric version, runner version, and
+  artifact/output paths must be present and coherent.
 - Treat run-producing semantic portfolios as local on-demand evidence before significant changes, not default CI.
 - Do not claim suite readiness without command evidence.
 

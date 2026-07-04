@@ -11,11 +11,17 @@ import {
 } from "./promptfoo.mjs";
 import { aggregateVerdict, criticalBlockerCount } from "./verdict.mjs";
 import { assertContainedPath, assertSafeId, toPosixPath } from "./paths.mjs";
+import {
+  countPointwiseVerdicts,
+  formatPointwiseCalibrationSummary,
+  formatPointwiseVerdictCounts,
+  validatePointwiseRunMetadata,
+} from "./pointwise.mjs";
 
 const DEFAULT_SANDBOX_MODE = "read-only";
 const DEFAULT_APPROVAL_POLICY = "never";
 const RANDOMIZATION_METHOD = "sha256-seed-parity-v1";
-const EVAL_KIT_VERSION = "0.1.7";
+const EVAL_KIT_VERSION = "0.1.8";
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -762,6 +768,14 @@ export const judgeCoverage = async ({
   // Validate properties match run config
   if (result.case_id !== caseId) throw new Error("case_id mismatch in result");
   if (result.model !== model) throw new Error("model mismatch in result");
+  if (result.provider !== provider)
+    throw new Error("provider mismatch in result");
+  if (result.prompt_version !== promptVersion) {
+    throw new Error("prompt_version mismatch in result");
+  }
+  if (result.rubric_version !== rubricVersion) {
+    throw new Error("rubric_version mismatch in result");
+  }
 
   // Post-process pointwise items if the adapter provides custom canonicalization
   let finalResult = result;
@@ -781,16 +795,7 @@ export const judgeCoverage = async ({
     JSON.stringify(finalResult, null, 2) + "\n",
   );
 
-  const counts = {
-    covered: 0,
-    partial: 0,
-    missing: 0,
-    contradicted: 0,
-    unknown: 0,
-  };
-  for (const item of finalResult.items) {
-    counts[item.verdict] = (counts[item.verdict] ?? 0) + 1;
-  }
+  const counts = countPointwiseVerdicts(finalResult.items);
 
   fs.writeFileSync(
     path.join(resultDir, "report.md"),
@@ -806,11 +811,9 @@ export const judgeCoverage = async ({
       "",
       "## Coverage Summary",
       "",
-      `- covered: ${counts.covered}`,
-      `- partial: ${counts.partial}`,
-      `- missing: ${counts.missing}`,
-      `- contradicted: ${counts.contradicted}`,
-      `- unknown: ${counts.unknown}`,
+      ...formatPointwiseVerdictCounts(counts),
+      "",
+      formatPointwiseCalibrationSummary({ counts }),
       "",
       "## Item Results",
       "",
@@ -831,66 +834,72 @@ export const judgeCoverage = async ({
       redactionStatus: role.startsWith("raw_") ? "raw-local" : "public-safe",
     });
 
+  const manifest = {
+    schema_version: "eval-kit.result-manifest.v2",
+    run_id: runId,
+    run_type: "judge-coverage",
+    runner: {
+      id: `${config.raw.suite_id}-pointwise-judge`,
+      version: EVAL_KIT_VERSION,
+    },
+    case_ids: [caseId],
+    started_at: startedAt.toISOString(),
+    ended_at: endedAt.toISOString(),
+    duration_ms: endedAt.getTime() - startedAt.getTime(),
+    status: "completed",
+    git: { commit: getGitCommit(config) },
+    command: process.argv.join(" "),
+    tool_versions: getToolVersions(config),
+    model_provider: codexProviderId({ provider, model }),
+    model,
+    provider,
+    reasoning_effort: effort,
+    sandbox_mode: DEFAULT_SANDBOX_MODE,
+    approval_policy: DEFAULT_APPROVAL_POLICY,
+    codex_auth_mode: authMode,
+    prompt_version: promptVersion,
+    rubric_version: rubricVersion,
+    artifacts: [
+      artRecord("report", "report.md", "text/markdown"),
+      artRecord(
+        "pointwise_result",
+        "pointwise-result.json",
+        "application/json",
+      ),
+      artRecord("promptfoo_config", "promptfooconfig.json", "application/json"),
+      artRecord(
+        "raw_promptfoo_results",
+        "promptfoo-results.json",
+        "application/json",
+      ),
+      artRecord("promptfoo_html_report", "promptfoo-report.html", "text/html"),
+    ],
+    output_files: [
+      "manifest.json",
+      "report.md",
+      "pointwise-result.json",
+      "promptfooconfig.json",
+      "promptfoo-results.json",
+      "promptfoo-report.html",
+    ],
+  };
+  validatePointwiseRunMetadata({
+    manifest,
+    expected: {
+      runId,
+      caseId,
+      model,
+      provider,
+      effort,
+      promptVersion,
+      rubricVersion,
+      runnerVersion: EVAL_KIT_VERSION,
+    },
+  });
   writeManifest({
     runDir: resultDir,
     schemaRegistry: config.schemaRegistry,
-    manifest: {
-      schema_version: "eval-kit.result-manifest.v2",
-      run_id: runId,
-      run_type: "judge-coverage",
-      runner: {
-        id: `${config.raw.suite_id}-pointwise-judge`,
-        version: EVAL_KIT_VERSION,
-      },
-      case_ids: [caseId],
-      started_at: startedAt.toISOString(),
-      ended_at: endedAt.toISOString(),
-      duration_ms: endedAt.getTime() - startedAt.getTime(),
-      status: "completed",
-      git: { commit: getGitCommit(config) },
-      command: process.argv.join(" "),
-      tool_versions: getToolVersions(config),
-      model_provider: codexProviderId({ provider, model }),
-      model,
-      provider,
-      reasoning_effort: effort,
-      sandbox_mode: DEFAULT_SANDBOX_MODE,
-      approval_policy: DEFAULT_APPROVAL_POLICY,
-      codex_auth_mode: authMode,
-      prompt_version: promptVersion,
-      rubric_version: rubricVersion,
-      artifacts: [
-        artRecord("report", "report.md", "text/markdown"),
-        artRecord(
-          "pointwise_result",
-          "pointwise-result.json",
-          "application/json",
-        ),
-        artRecord(
-          "promptfoo_config",
-          "promptfooconfig.json",
-          "application/json",
-        ),
-        artRecord(
-          "raw_promptfoo_results",
-          "promptfoo-results.json",
-          "application/json",
-        ),
-        artRecord(
-          "promptfoo_html_report",
-          "promptfoo-report.html",
-          "text/html",
-        ),
-      ],
-      output_files: [
-        "manifest.json",
-        "report.md",
-        "pointwise-result.json",
-        "promptfooconfig.json",
-        "promptfoo-results.json",
-        "promptfoo-report.html",
-      ],
-    },
+    manifest,
   });
 
   return { resultDir, finalResult };

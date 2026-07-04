@@ -117,6 +117,20 @@ Optional model-run fields:
 - `randomization`
 - `provenance.parent_run_ids`
 
+For `judge-coverage` pointwise runs, eval-kit additionally validates the run metadata before
+writing the manifest. Required pointwise metadata is:
+
+- `run_id`;
+- exactly one `case_ids` entry matching the judged case;
+- `model`;
+- `provider`;
+- `reasoning_effort` when supplied by the run command;
+- `prompt_version`;
+- `rubric_version`;
+- `runner.version`;
+- artifact and output paths for the pointwise report, structured pointwise result, Promptfoo config,
+  raw Promptfoo results, and Promptfoo HTML report.
+
 ### `finding.schema.json`
 
 Generic minimal finding shape:

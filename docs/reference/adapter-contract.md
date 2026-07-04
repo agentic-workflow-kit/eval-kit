@@ -136,6 +136,19 @@ export const canonicalizeExpectedItemMetadata = (actualItems, expectedItems) =>
   }));
 ```
 
+Eval-kit exports generic pointwise helpers for consumers that curate summaries:
+
+```js
+import {
+  countPointwiseVerdicts,
+  formatPointwiseCalibrationSummary,
+} from "@agentic-workflow-kit/eval-kit";
+```
+
+Use these helpers to report advisory counts for `covered`, `partial`, `missing`, `contradicted`, and
+`unknown`, plus expected-good/expected-bad calibration labels and false-pass/false-fail notes. The
+helpers do not define consumer semantics.
+
 ## Pairwise judge hook
 
 Required for `judge-pairwise`:
