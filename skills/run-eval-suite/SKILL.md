@@ -27,9 +27,15 @@ Use this skill when executing a local eval-kit suite.
   replay suites in `pnpm check`.
 - Use the consumer's `eval:judge:doctor`, `eval:judge:list`, and `eval:judge:validate-fixtures`
   scripts before any manual `eval:judge:coverage` run.
+- For pointwise model-judge summaries, treat `partial`, `missing`, `contradicted`, and `unknown` as
+  non-covered unless the consumer policy explicitly accepts the item.
+- Expected-bad fixtures should remain adverse on their intended defect. Do not describe an adverse
+  bad-fixture result as a failed eval when it matches the calibration label.
 - Preserve raw outputs according to the consumer repo's artifact policy.
 
 ## Evidence
 
 Report the config path, cases run, result directories, verdicts, report paths, and any skipped or
 advisory-only checks. For model-assisted runs, state that provider calls were explicitly requested.
+Report deterministic evidence first, then model-judge counts for `covered`, `partial`, `missing`,
+`contradicted`, and `unknown`.

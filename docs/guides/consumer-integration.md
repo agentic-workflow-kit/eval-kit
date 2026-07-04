@@ -18,7 +18,7 @@ If you cannot state the eval goal, do not bootstrap a suite yet. Empty harnesses
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.4"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.5"
   }
 }
 ```
@@ -106,5 +106,10 @@ with a separate config only after the consumer has calibrated pointwise evidence
 - [ ] Are hidden reference answers avoided?
 - [ ] Are deterministic blockers not averaged away?
 - [ ] Are model judges advisory unless calibrated?
+- [ ] Are expected-bad fixtures expected to remain adverse instead of receiving pass-like coverage?
+- [ ] Are raw provider result bundles ignored unless a human curates a summary?
 - [ ] Does `pnpm check` remain fast, offline, and reasonable for contributors?
 ```
+
+For manual pointwise calibration and report wording, follow
+[`model-judge-calibration-reporting.md`](model-judge-calibration-reporting.md).
