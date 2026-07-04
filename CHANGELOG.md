@@ -7,6 +7,12 @@ documented with migration notes.
 
 ## [Unreleased]
 
+### Fixed
+
+- Marked extraction-era technical-design Promptfoo follow-up docs as historical so they do not
+  override current two-config pointwise model-judge guidance.
+- Replaced a stale release-process dependency example with a version placeholder.
+
 ### Planned
 
 - Additional docs for suite-specific adoption.

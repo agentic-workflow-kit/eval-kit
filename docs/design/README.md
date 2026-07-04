@@ -8,5 +8,6 @@ Read:
 - [`decisions.md`](decisions.md) - append-only decision log.
 - [`bootstrap-cli.md`](bootstrap-cli.md) - init/scaffold/doctor/list-cases design.
 - [`consumer-integration.md`](consumer-integration.md) - how consumer repos adopt the package.
-- [`technical-design-follow-up.md`](technical-design-follow-up.md) - required technical-design Promptfoo variable fix.
+- [`technical-design-follow-up.md`](technical-design-follow-up.md) - historical pre-v0.1.5
+  technical-design Promptfoo follow-up; do not use as current integration guidance.
 - [`skills.md`](skills.md) - agent-facing skill design.
