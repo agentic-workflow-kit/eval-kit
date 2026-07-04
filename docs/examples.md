@@ -133,7 +133,7 @@ Treat these as manual/advisory runs, not default CI gates.
 
 ```bash
 pnpm exec eval-kit judge-coverage \
-  --config evals/eval-kit.config.json \
+  --config evals/eval-kit.model-judge.config.json \
   --case case-alpha \
   --candidate evals/cases/case-alpha/candidate.md \
   --model gpt-5.4 \

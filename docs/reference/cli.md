@@ -115,11 +115,13 @@ pnpm exec eval-kit generate \
   --provider <openai|openai:codex-app-server> \
   --effort <low|medium|high> \
   --run-id <id> \
-  [--config <path>]
+  --config evals/eval-kit.generate.config.json
 ```
 
 Requires Promptfoo and local Codex auth. This is manual/advisory evidence, not a default CI gate.
 Fails closed before those checks unless `methods.generate.enabled` is explicitly `true`.
+Use a separate explicit config for generation; do not enable generation in the deterministic default
+config.
 
 ## `judge-coverage`
 
@@ -133,7 +135,7 @@ pnpm exec eval-kit judge-coverage \
   --provider <openai|openai:codex-app-server> \
   --effort <low|medium|high> \
   [--run-id <id>] \
-  [--config <path>]
+  --config evals/eval-kit.model-judge.config.json
 ```
 
 Fails closed unless `methods.judge_coverage.enabled` is explicitly `true`.
@@ -157,10 +159,12 @@ pnpm exec eval-kit judge-pairwise \
   --effort <low|medium|high> \
   --seed <number> \
   --run-id <id> \
-  [--config <path>]
+  --config evals/eval-kit.pairwise.config.json
 ```
 
 Fails closed unless `methods.judge_pairwise.enabled` is explicitly `true`.
+Use a separate explicit config for pairwise after pointwise calibration; do not enable pairwise in
+the deterministic default config.
 
 ## `report`
 
