@@ -55,15 +55,9 @@ the consumer has calibrated pointwise evidence and a specific comparison need.
 
 ## Commands
 
+Pointwise judging uses the standard manual model-judge config:
+
 ```bash
-pnpm exec eval-kit generate \
-  --case <case-id> \
-  --model <model> \
-  --provider openai \
-  --effort medium \
-  --run-id <run-id>
-
-
 pnpm exec eval-kit judge-coverage \
   --config evals/eval-kit.model-judge.config.json \
   --case <case-id> \
@@ -72,9 +66,23 @@ pnpm exec eval-kit judge-coverage \
   --provider openai \
   --effort medium \
   --run-id <run-id>
+```
 
+Generation and pairwise are separate manual lanes. They require separate configs whose relevant
+method is explicitly enabled; do not run them through `evals/eval-kit.config.json` or
+`evals/eval-kit.model-judge.config.json`.
+
+```bash
+pnpm exec eval-kit generate \
+  --config evals/eval-kit.generate.config.json \
+  --case <case-id> \
+  --model <model> \
+  --provider openai \
+  --effort medium \
+  --run-id <run-id>
 
 pnpm exec eval-kit judge-pairwise \
+  --config evals/eval-kit.pairwise.config.json \
   --case <case-id> \
   --candidate-a <a.md> \
   --candidate-b <b.md> \
