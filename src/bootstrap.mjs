@@ -123,7 +123,19 @@ const initFilesForSuite = (suite) => {
       content: [
         "# Eval Results",
         "",
-        "Generated evaluation result bundles are written here. Keep durable summaries, but do not commit bulky transient outputs unless your repo policy requires them.",
+        "Generated evaluation result bundles are written here. Keep durable summaries, but do not commit raw transient outputs unless your repo policy requires them.",
+        "",
+        "The sibling `.gitignore` keeps run bundles local by default while preserving this README and curated files a human intentionally adds.",
+        "",
+      ].join("\n"),
+    },
+    {
+      relativePath: "evals/results/.gitignore",
+      content: [
+        "# Keep raw eval result bundles local unless a human curates a summary.",
+        "*",
+        "!README.md",
+        "!.gitignore",
         "",
       ].join("\n"),
     },

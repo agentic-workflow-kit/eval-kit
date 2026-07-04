@@ -38,6 +38,7 @@ describe("bootstrap CLI", () => {
 
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("Would write evals/eval-kit.config.json");
+    expect(result.stdout).toContain("Would write evals/results/.gitignore");
     expect(fs.existsSync(path.join(root, "evals"))).toBe(false);
   });
 
@@ -58,6 +59,23 @@ describe("bootstrap CLI", () => {
         root: "cases",
       },
     });
+    expect(
+      fs.readFileSync(
+        path.join(root, "evals", "results", ".gitignore"),
+        "utf8",
+      ),
+    ).toBe(
+      [
+        "# Keep raw eval result bundles local unless a human curates a summary.",
+        "*",
+        "!README.md",
+        "!.gitignore",
+        "",
+      ].join("\n"),
+    );
+    expect(
+      fs.readFileSync(path.join(root, "evals", "results", "README.md"), "utf8"),
+    ).toContain("keeps run bundles local by default");
 
     const doctor = runCli(root, ["doctor"]);
     expect(doctor.status).toBe(0);
