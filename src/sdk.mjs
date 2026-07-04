@@ -15,7 +15,7 @@ import { assertContainedPath, assertSafeId, toPosixPath } from "./paths.mjs";
 const DEFAULT_SANDBOX_MODE = "read-only";
 const DEFAULT_APPROVAL_POLICY = "never";
 const RANDOMIZATION_METHOD = "sha256-seed-parity-v1";
-const EVAL_KIT_VERSION = "0.1.6";
+const EVAL_KIT_VERSION = "0.1.7";
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 

@@ -12,6 +12,20 @@ documented with migration notes.
 - Additional docs for suite-specific adoption.
 - Better compatibility tests for Promptfoo variable contracts.
 
+## [0.1.7] - 2026-07-04
+
+### Fixed
+
+- Generic bootstrap now writes `evals/results/.gitignore` so raw result bundles stay local by
+  default while preserving `README.md` and the ignore file.
+- Updated bootstrap tests to cover the generated results ignore policy.
+
+### Notes
+
+- No runner, schema, prompt, or consumer semantic behavior changed.
+- No npm package is published.
+- Consumers may pin `github:agentic-workflow-kit/eval-kit#v0.1.7`.
+
 ## [0.1.6] - 2026-07-04
 
 ### Fixed
@@ -121,7 +135,8 @@ documented with migration notes.
 - Suite-specific presets remain deferred.
 - Consumer repos own their own semantics, prompts, cases, and pass/fail policies.
 
-[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.6...main
+[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.7...main
+[0.1.7]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.3...v0.1.4
