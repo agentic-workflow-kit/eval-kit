@@ -17,10 +17,27 @@ import {
   validateFixtures,
 } from "./sdk.mjs";
 
-const requireEnabledMethod = (config, methodKey, commandName) => {
-  if (config.raw.methods?.[methodKey]?.enabled === false) {
+const modelAssistedMethodKeys = new Set([
+  "generate",
+  "judge_coverage",
+  "judge_pairwise",
+]);
+
+const requireEnabledMethod = (
+  config,
+  methodKey,
+  commandName,
+  { explicitEnableRequired = false } = {},
+) => {
+  const enabled = config.raw.methods?.[methodKey]?.enabled;
+  if (enabled === false) {
     throw new Error(
       `${commandName} is disabled by methods.${methodKey}.enabled=false`,
+    );
+  }
+  if (explicitEnableRequired && enabled !== true) {
+    throw new Error(
+      `${commandName} requires methods.${methodKey}.enabled=true`,
     );
   }
 };
@@ -36,7 +53,9 @@ const runProducingMethodByCommand = {
 const requireEnabledCommandMethod = (config, commandName) => {
   const methodKey = runProducingMethodByCommand[commandName];
   if (methodKey) {
-    requireEnabledMethod(config, methodKey, commandName);
+    requireEnabledMethod(config, methodKey, commandName, {
+      explicitEnableRequired: modelAssistedMethodKeys.has(methodKey),
+    });
   }
 };
 

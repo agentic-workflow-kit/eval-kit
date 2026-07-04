@@ -34,7 +34,7 @@ Consumers depend on tags like:
 Title:
 
 ```text
-chore(release): v0.1.3
+chore(release): v0.1.4
 ```
 
 Required changes:
@@ -63,18 +63,18 @@ git checkout main
 git pull --ff-only
 git rev-parse HEAD
 
-git tag -a v0.1.3 -m "v0.1.3"
-git push origin v0.1.3
+git tag -a v0.1.4 -m "v0.1.4"
+git push origin v0.1.4
 ```
 
 Verify:
 
 ```bash
-git rev-parse v0.1.3^{}
-git show --no-patch --decorate v0.1.3
+git rev-parse v0.1.4^{}
+git show --no-patch --decorate v0.1.4
 ```
 
-`v0.1.3^{}` must point to the release commit. With an annotated tag, `git rev-parse v0.1.3`
+`v0.1.4^{}` must point to the release commit. With an annotated tag, `git rev-parse v0.1.4`
 returns the tag object; `^{}` dereferences to the commit.
 
 ## GitHub Release
@@ -93,7 +93,7 @@ For each consumer repo:
 
 ```json
 {
-  "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
+  "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.4"
 }
 ```
 
@@ -108,7 +108,7 @@ pnpm check
 3. Run consumer smoke commands, for example in `technical-design`:
 
 ```bash
-pnpm eval:case -- --case case-tiny-laundry-pickup-v1 --candidate evals/cases/case-tiny-laundry-pickup-v1/reference-design.md --run-id verify-eval-kit-v0.1.3
+pnpm eval:case -- --case case-tiny-laundry-pickup-v1 --candidate evals/cases/case-tiny-laundry-pickup-v1/reference-design.md --run-id verify-eval-kit-v0.1.4
 ```
 
 4. Open a PR with dependency, lockfile, and any compatibility fixes.
@@ -120,7 +120,7 @@ Do not move the tag.
 Create a new patch release:
 
 ```text
-v0.1.3 -> v0.1.4
+v0.1.4 -> v0.1.5
 ```
 
 Then open consumer bump PRs.

@@ -22,6 +22,15 @@ Run-producing commands fail closed when their configured method is explicitly di
 Disabled commands exit before Codex auth checks, Promptfoo execution, model provider calls, adapter
 hooks, or result artifact writes.
 
+Model-assisted commands also require explicit enablement in the selected config before required
+model/candidate arguments are validated:
+
+| Command          | Required enablement                   |
+| ---------------- | ------------------------------------- |
+| `generate`       | `methods.generate.enabled=true`       |
+| `judge-coverage` | `methods.judge_coverage.enabled=true` |
+| `judge-pairwise` | `methods.judge_pairwise.enabled=true` |
+
 ## `init`
 
 Create a deterministic generic eval skeleton.
@@ -110,7 +119,7 @@ pnpm exec eval-kit generate \
 ```
 
 Requires Promptfoo and local Codex auth. This is manual/advisory evidence, not a default CI gate.
-Fails closed before those checks when `methods.generate.enabled` is explicitly `false`.
+Fails closed before those checks unless `methods.generate.enabled` is explicitly `true`.
 
 ## `judge-coverage`
 
@@ -127,7 +136,7 @@ pnpm exec eval-kit judge-coverage \
   [--config <path>]
 ```
 
-Fails closed when `methods.judge_coverage.enabled` is explicitly `false`.
+Fails closed unless `methods.judge_coverage.enabled` is explicitly `true`.
 
 ## `judge-pairwise`
 
@@ -151,7 +160,7 @@ pnpm exec eval-kit judge-pairwise \
   [--config <path>]
 ```
 
-Fails closed when `methods.judge_pairwise.enabled` is explicitly `false`.
+Fails closed unless `methods.judge_pairwise.enabled` is explicitly `true`.
 
 ## `report`
 

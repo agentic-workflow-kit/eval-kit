@@ -7,7 +7,7 @@ This guide adds a generic deterministic eval suite to a consumer repo.
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.4"
   }
 }
 ```
