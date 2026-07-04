@@ -12,6 +12,20 @@ documented with migration notes.
 - Additional docs for suite-specific adoption.
 - Better compatibility tests for Promptfoo variable contracts.
 
+## [0.1.4] - 2026-07-04
+
+### Fixed
+
+- Made model-assisted CLI commands fail closed unless their method is explicitly enabled in config.
+- Added regression coverage for omitted model-assisted method config and method entries without
+  `enabled`.
+
+### Notes
+
+- Deterministic `run-case` and manual `report` remain compatible unless explicitly disabled.
+- No npm package is published.
+- Consumers may pin `github:agentic-workflow-kit/eval-kit#v0.1.4`.
+
 ## [0.1.3] - 2026-07-04
 
 ### Added
@@ -77,7 +91,8 @@ documented with migration notes.
 - Suite-specific presets remain deferred.
 - Consumer repos own their own semantics, prompts, cases, and pass/fail policies.
 
-[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.3...main
+[Unreleased]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.4...main
+[0.1.4]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/agentic-workflow-kit/eval-kit/compare/v0.1.0...v0.1.1

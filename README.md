@@ -11,7 +11,7 @@ Shared evaluation infrastructure for `agentic-workflow-kit` repositories.
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.4"
   }
 }
 ```
@@ -70,7 +70,7 @@ Install from a Git tag in a consumer repo:
 ```json
 {
   "devDependencies": {
-    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.3"
+    "@agentic-workflow-kit/eval-kit": "github:agentic-workflow-kit/eval-kit#v0.1.4"
   },
   "scripts": {
     "eval:doctor": "eval-kit doctor --config evals/eval-kit.config.json",
@@ -191,6 +191,7 @@ v0.1.0
 v0.1.1
 v0.1.2
 v0.1.3
+v0.1.4
 v0.2.0
 ```
 

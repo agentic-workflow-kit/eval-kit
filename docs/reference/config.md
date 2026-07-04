@@ -69,11 +69,12 @@ lanes:
 - `run-case` is deterministic local on-demand evidence for semantic case portfolios. Run it before
   significant changes, but do not make long run-producing portfolios a default CI gate.
 - `generate`, `judge_coverage`, and `judge_pairwise` are manual/advisory model-assisted methods.
-  They require explicit local setup and must not require auth, network, Promptfoo provider calls,
-  Codex/OpenAI calls, LLM judging, or manual calibration in `pnpm check`.
-- Run-producing commands fail closed when their method's `enabled` flag is explicitly `false`,
-  before Codex auth checks, Promptfoo execution, model provider calls, adapter hooks, or result
-  artifact writes.
+  They require explicit local setup, must be explicitly enabled in the selected config, and must not
+  require auth, network, Promptfoo provider calls, Codex/OpenAI calls, LLM judging, or manual
+  calibration in `pnpm check`.
+- Run-producing commands fail closed before Codex auth checks, Promptfoo execution, model provider
+  calls, adapter hooks, or result artifact writes when disabled. Model-assisted commands also fail
+  closed unless their method's `enabled` flag is explicitly `true`.
 
 ## Path rules
 

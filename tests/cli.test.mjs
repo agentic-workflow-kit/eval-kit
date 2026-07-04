@@ -36,6 +36,33 @@ const writeConfigWithDisabledMethod = (methodKey) => {
   return tempConfigPath;
 };
 
+const writeConfigOmittingMethod = (methodKey) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "eval-kit-cli-"));
+  tempDirs.push(tempDir);
+
+  const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+  delete config.methods[methodKey];
+
+  const tempConfigPath = path.join(tempDir, "eval-kit.config.json");
+  fs.writeFileSync(tempConfigPath, `${JSON.stringify(config, null, 2)}\n`);
+  return tempConfigPath;
+};
+
+const writeConfigWithMethodWithoutEnabled = (methodKey) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "eval-kit-cli-"));
+  tempDirs.push(tempDir);
+
+  const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+  config.methods = {
+    ...config.methods,
+    [methodKey]: {},
+  };
+
+  const tempConfigPath = path.join(tempDir, "eval-kit.config.json");
+  fs.writeFileSync(tempConfigPath, `${JSON.stringify(config, null, 2)}\n`);
+  return tempConfigPath;
+};
+
 const runCli = (args) =>
   spawnSync(process.execPath, [cliPath, ...args], {
     cwd: packageRoot,
@@ -72,6 +99,52 @@ describe("eval-kit CLI", () => {
       expect(result.status).toBe(1);
       expect(result.stderr).toContain(`${commandName} is disabled`);
       expect(result.stderr).toContain(`methods.${methodKey}.enabled=false`);
+      expect(result.stderr).not.toContain("missing required argument");
+    },
+  );
+
+  it.each([
+    ["generate", "generate"],
+    ["judge-coverage", "judge_coverage"],
+    ["judge-pairwise", "judge_pairwise"],
+  ])(
+    "fails closed when %s method config is omitted",
+    (commandName, methodKey) => {
+      const omittedConfigPath =
+        methodKey in JSON.parse(fs.readFileSync(configPath, "utf8")).methods
+          ? writeConfigOmittingMethod(methodKey)
+          : configPath;
+
+      const result = runCli([commandName, "--config", omittedConfigPath]);
+
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain(
+        `${commandName} requires methods.${methodKey}.enabled=true`,
+      );
+      expect(result.stderr).not.toContain("missing required argument");
+    },
+  );
+
+  it.each([
+    ["generate", "generate"],
+    ["judge-coverage", "judge_coverage"],
+    ["judge-pairwise", "judge_pairwise"],
+  ])(
+    "fails closed when %s method config omits enabled",
+    (commandName, methodKey) => {
+      const missingEnabledConfigPath =
+        writeConfigWithMethodWithoutEnabled(methodKey);
+
+      const result = runCli([
+        commandName,
+        "--config",
+        missingEnabledConfigPath,
+      ]);
+
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain(
+        `${commandName} requires methods.${methodKey}.enabled=true`,
+      );
       expect(result.stderr).not.toContain("missing required argument");
     },
   );
